@@ -382,7 +382,9 @@ public class pnCheckOut extends JPanel {
 			
 			
 		    dcStart.setEnabled(false);
-		    
+		    dcBill.setEnabled(false);
+
+			dcBill.setDate(new java.util.Date());
 		}
 	}
 
@@ -555,7 +557,6 @@ public class pnCheckOut extends JPanel {
 	            int i = table.getSelectedRow(); // Bảng chi tiết dịch vụ
 	            if (i >= 0) {
 	                detailBookingDTO selectedDetailBooking = arrDetailBookingNotCheckout.get(i);
-	                bill.setId_kh(selectedDetailBooking.getDetail_booking_customer_id());
 	                bill.setId_phieudat(selectedDetailBooking.getDetail_booking_id_step2());
 	            }
 
@@ -588,7 +589,7 @@ public class pnCheckOut extends JPanel {
 
 	                for (int j = 0; j < table_1.getRowCount(); j++) {
 	                    detailServiceDTO dlsv = new detailServiceDTO();
-	                    dlsv.setId_hd(Integer.parseInt(tfID.getText()));
+	                    dlsv.setid_pn(Integer.parseInt(tfID.getText()));
 	                    dlsv.setId_dv((int) table_1.getValueAt(j, 0));
 	                    dlsv.setSoluong_dv(Integer.parseInt(table_1.getValueAt(j, 2).toString()));
 	                    dlsv.setTongtien_dv(Double.parseDouble(table_1.getValueAt(j, 3).toString()));

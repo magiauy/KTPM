@@ -8,6 +8,7 @@ public class staffDTO {
 	private String staff_CCCD;
 	private String staff_phai;
 	private int staff_id_chucvu;
+	private String staff_status;
 	public int getStaff_id() {
 		return staff_id;
 	}
@@ -50,6 +51,12 @@ public class staffDTO {
 	public void setStaff_id_chucvu(int staff_id_chucvu) {
 		this.staff_id_chucvu = staff_id_chucvu;
 	}
-	
+	public String getStaff_status() {
+		return staff_status;
+	}
+	public void setStaff_status(String staff_status) {
+		this.staff_status = staff_status;
+	}
+
 
 }

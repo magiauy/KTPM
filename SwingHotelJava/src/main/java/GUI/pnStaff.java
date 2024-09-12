@@ -52,7 +52,7 @@ public class pnStaff extends JPanel {
 	private JTextField tfID;
 	private JRadioButton rdbtnNam, rdbtnNu;
 	private JRadioButton rdbtnStaff, rdbtnAdmin;
-
+	private JRadioButton rdbtnActive, rdbtnInactive;
 	private JButton btnAdd, btnDelete, btnEdit, btnReset;
 
 	private ArrayList<staffDTO> arrStaff;
@@ -254,11 +254,40 @@ public class pnStaff extends JPanel {
 				isSelectGender = true;
 			}
 		});
+		
 
 		// ButtonGroup cho Gender
 		btngrGender = new ButtonGroup();
 		btngrGender.add(rdbtnNam);
 		btngrGender.add(rdbtnNu);
+
+		JLabel lblNewLabel_1_7 = new JLabel("Trạng thái");
+		lblNewLabel_1_7.setForeground(new Color(0, 0, 128));
+		lblNewLabel_1_7.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		lblNewLabel_1_7.setBounds(756, 290, 79, 33);
+		add(lblNewLabel_1_7);
+
+		rdbtnActive = new JRadioButton("Đang hoạt động");
+		rdbtnActive.setFont(new Font("SansSerif", Font.PLAIN, 13));
+		rdbtnActive.setBackground(new Color(255, 255, 255));
+		rdbtnActive.setBounds(756, 320, 120, 21);
+		add(rdbtnActive);
+
+		rdbtnInactive = new JRadioButton("Ngừng hoạt động");
+		rdbtnInactive.setFont(new Font("SansSerif", Font.PLAIN, 13));
+		rdbtnInactive.setBackground(new Color(255, 255, 255));
+		rdbtnInactive.setBounds(880, 320, 150, 21);
+		add(rdbtnInactive);
+
+
+
+		ButtonGroup statusGroup = new ButtonGroup();
+		statusGroup.add(rdbtnActive);
+		statusGroup.add(rdbtnInactive);
+
+		rdbtnInactive.setEnabled(false);
+		rdbtnActive.setEnabled(false);
+		rdbtnActive.setSelected(true);
 
 		rdbtnStaff = new JRadioButton("Nhân viên");
 		rdbtnStaff.setForeground(new Color(0, 128, 128));
@@ -316,7 +345,7 @@ public class pnStaff extends JPanel {
 		lblNewLabel_12.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		lblNewLabel_12.setBounds(349, 441, 79, 33);
 		add(lblNewLabel_12);
-
+		staffBUS.loaddata();
 	}
 
 	// UpdateListStaff
@@ -331,7 +360,8 @@ public class pnStaff extends JPanel {
 					staff.getStaff_email(),
 					staff.getStaff_CCCD(),
 					staff.getStaff_phai(),
-					staff.getStaff_id_chucvu()
+					staff.getStaff_id_chucvu(),
+					staff.getStaff_status()
 			});
 		}
 	}
@@ -354,6 +384,7 @@ public class pnStaff extends JPanel {
 		modelStaff.addColumn("CCCD");
 		modelStaff.addColumn("Giới tính");
 		modelStaff.addColumn("ID Chức vụ");
+		modelStaff.addColumn("Trạng thái");
 		// modelStaff.addColumn("Password");
 
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -428,6 +459,17 @@ public class pnStaff extends JPanel {
 			} else if (Integer.parseInt(modelStaff.getValueAt(i, 6).toString()) == 1) {
 				isSeclectPosition = true;
 				rdbtnAdmin.setSelected(true);
+			}
+
+			String status = modelStaff.getValueAt(i, 7).toString();
+			if ("HOẠT ĐỘNG".equals(status)) {
+				rdbtnActive.setSelected(true);
+				rdbtnInactive.setEnabled(false);
+				rdbtnActive.setEnabled(true);
+			} else if ("NGỪNG HOẠT ĐỘNG".equals(status)) {
+				rdbtnInactive.setSelected(true);
+				rdbtnActive.setEnabled(true);
+				rdbtnInactive.setEnabled(true);
 			}
 		}
 	}
@@ -529,8 +571,8 @@ public class pnStaff extends JPanel {
 			JOptionPane.showMessageDialog(this, message);
 
 			if (message.equals("Xóa nhân viên thành công")) {
-				modelStaff.removeRow(i);
-				arrStaff.remove(i);
+				arrStaff.get(i).setStaff_status("NGỪNG HOẠT ĐỘNG");
+				updateTableStaff();
 			}
 			btnResetActionPerformed(e);
 		} else {
@@ -577,6 +619,15 @@ public class pnStaff extends JPanel {
 						JOptionPane.showMessageDialog(this, "Vui lòng chọn chức vụ");
 						return;
 					}
+					String status ;
+					if (rdbtnActive.isSelected()) {
+						status = "HOẠT ĐỘNG";
+					} else if (rdbtnInactive.isSelected()) {
+						status = "NGỪNG HOẠT ĐỘNG";
+					} else {
+						JOptionPane.showMessageDialog(this, "Vui lòng chọn trạng thái");
+						return;
+					}
 
 					// Tạo đối tượng customerDTO mới với thông tin đã được chỉnh sửa
 					staffDTO staff = new staffDTO();
@@ -589,6 +640,7 @@ public class pnStaff extends JPanel {
 					staff.setStaff_CCCD(tfCCCD.getText());
 					staff.setStaff_phai(gender);
 					staff.setStaff_id_chucvu(chucvu);
+					staff.setStaff_status(status);
 
 					String message = staffBUS.editStaff(staff);
 
@@ -604,6 +656,8 @@ public class pnStaff extends JPanel {
 						modelStaff.setValueAt(staff.getStaff_CCCD(), i, 4);
 						modelStaff.setValueAt(staff.getStaff_phai(), i, 5);
 						modelStaff.setValueAt(staff.getStaff_id_chucvu(), i, 6);
+						modelStaff.setValueAt(staff.getStaff_status(), i, 7);
+
 					}
 				}
 			}
@@ -632,6 +686,10 @@ public class pnStaff extends JPanel {
 		btngrGender.clearSelection();
 		btngrPosition.clearSelection();
 
+		rdbtnActive.setSelected(true);
+		rdbtnInactive.setEnabled(false);
+		rdbtnActive.setEnabled(false);
 	}
+
 
 }

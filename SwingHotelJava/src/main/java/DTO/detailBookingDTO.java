@@ -8,10 +8,11 @@ public class detailBookingDTO {
 	private int deltai_booking_id_room_step2; //Mã phòng
 	private double sum_fee_step2; //Tổng tiền tạm tính
 	private String detail_booking_status; //Trạng thái
+	private String detail_booking_room_name; //tên phòng
+
 //	Thuộc tính kết bảng
 	private String detail_booking_customer_name; //Tên khách hàng
 	private int detail_booking_room_id; //Mã phòng
-	private String detail_booking_room_name; //tên phòng
 	private int detail_booking_customer_id; //mã khách hàng
 	
 	private Date date_start_booking; //Ngày đặt

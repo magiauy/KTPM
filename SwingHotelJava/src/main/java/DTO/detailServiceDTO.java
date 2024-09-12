@@ -2,16 +2,16 @@ package DTO;
 
 public class detailServiceDTO {
 //	Các thuộc tính trong database
-	private int id_hd;
+	private int id_pn;
 	private int id_dv;
 	private int soluong_dv;
 	private double tongtien_dv;
 //	Get,set
-	public int getId_hd() {
-		return id_hd;
+	public int getid_pn() {
+		return id_pn;
 	}
-	public void setId_hd(int id_hd) {
-		this.id_hd = id_hd;
+	public void setid_pn(int id_pn) {
+		this.id_pn = id_pn;
 	}
 	public int getId_dv() {
 		return id_dv;

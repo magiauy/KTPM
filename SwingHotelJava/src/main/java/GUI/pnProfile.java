@@ -196,6 +196,8 @@ public class pnProfile extends JPanel {
 		btngrPosition = new ButtonGroup();//Position(n): chức vụ
 		btngrPosition.add(rdbtnStaff);
 		btngrPosition.add(rdbtnAdmin);
+		rdbtnStaff.setEnabled(false);
+		rdbtnAdmin.setEnabled(false);
 
 	}
 //	Hiển thị thông tin cá nhân

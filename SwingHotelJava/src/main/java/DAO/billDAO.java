@@ -22,7 +22,6 @@ public class billDAO extends connectToSQL{
 					billDTO bill = new billDTO();
 					
 					bill.setId_hoadon(rs.getInt("ID_HD"));
-					bill.setId_kh(rs.getInt("ID_KH"));
 					bill.setId_phieudat(rs.getInt("ID_PHIEUDAT"));
 					bill.setNgaylap_hd(rs.getDate("NGAYLAP_HD"));
 					bill.setTongtien_hd(rs.getDouble("TONGTIEN_HD"));
@@ -43,15 +42,14 @@ public class billDAO extends connectToSQL{
 		boolean result= false;
 		if(openConectionToSQL()) {
 			try {
-				String sql="Insert into hoadon values(?,?,?,?,?)";
+				String sql="Insert into hoadon values(?,?,?,?)";
 				
 				PreparedStatement stmt=con.prepareStatement(sql);
 				
 				stmt.setInt(1,bill.getId_hoadon());
 				stmt.setDouble(2,bill.getTongtien_hd());
 				stmt.setDate(3,bill.getNgaylap_hd());
-				stmt.setInt(4, bill.getId_kh());
-				stmt.setInt(5, bill.getId_phieudat());
+				stmt.setInt(4, bill.getId_phieudat());
 				
 				if(stmt.executeUpdate()>=1) {
 					result=true;
@@ -71,14 +69,12 @@ public class billDAO extends connectToSQL{
 		HashMap<Integer, Boolean> idHDMap = new HashMap<>(); 
 		if(openConectionToSQL()) {
 			try {
-				String sql = "SELECT hd.*, p.*, kh.*, pdp.*, ctp.* " +
+				String sql = "SELECT hd.*, kh.*, pdp.*, ctp.* " +
 	                     "FROM hoadon hd " +
-	                     "JOIN khachhang kh ON hd.ID_KH = kh.ID_KH " +
 	                     "JOIN phieudatphong pdp ON hd.ID_PHIEUDAT = pdp.ID_PHIEUDAT " +
 	                     "JOIN chitietphieudat ctp ON pdp.ID_PHIEUDAT = ctp.ID_PHIEUDAT " +
-	                     "JOIN phong p ON ctp.ID_PHG = p.ID_PHG " ;
-	              
-				
+						"JOIN khachhang kh ON pdp.ID_KH = kh.ID_KH "
+						;
 				Statement stmt = con.createStatement();
 				
 				ResultSet rs = stmt.executeQuery(sql);

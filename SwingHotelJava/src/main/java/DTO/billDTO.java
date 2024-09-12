@@ -7,14 +7,14 @@ public class billDTO {
 	private int id_hoadon;
 	private double tongtien_hd;
 	private Date ngaylap_hd;
-	private int id_kh;
 	private int id_phieudat;
 //	Các thuộc tính bổ sung
 	private String name_customer;
 	private String name_room;
 	private Date ngaythue;
 	private Date ngaytra;
-	
+
+	private int id_kh;
 	private String ten_dichvu;
 	private int soluong_dichvu;
 	private double tien_moidichvu;

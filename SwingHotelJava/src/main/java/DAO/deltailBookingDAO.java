@@ -24,7 +24,6 @@ public class deltailBookingDAO extends connectToSQL{
 				
 				
 				Statement stmt = con.createStatement();
-				
 				ResultSet rs=stmt.executeQuery(sql);
 				
 				while(rs.next()) {
@@ -56,7 +55,7 @@ public class deltailBookingDAO extends connectToSQL{
 		boolean result= false;
 		if(openConectionToSQL()) {
 			try {
-				String sql="Insert into chitietphieudat values(?,?,?,?)";
+				String sql="Insert into chitietphieudat values(?,?,?,?,?)";
 				
 				PreparedStatement stmt = con.prepareStatement(sql);
 				
@@ -64,6 +63,7 @@ public class deltailBookingDAO extends connectToSQL{
 				stmt.setInt(2,detailBooking.getDeltai_booking_id_room_step2());
 				stmt.setDouble(3,detailBooking.getSum_fee_step2());
 				stmt.setString(4,detailBooking.getDetail_booking_status());
+				stmt.setString(5,detailBooking.getDetail_booking_room_name());
 				
 				
 				if(stmt.executeUpdate()>0) {
@@ -83,13 +83,12 @@ public class deltailBookingDAO extends connectToSQL{
 		ArrayList<detailBookingDTO> arrDetailBookingNotCheckout= new ArrayList<detailBookingDTO>();
 		if(openConectionToSQL()) {
 			try {
-				 String sql = "SELECT chitietphieudat.*, khachhang.*, phong.*, phieudatphong.* " +
-                         "FROM chitietphieudat, phieudatphong, khachhang, phong " +
-                         "WHERE chitietphieudat.ID_PHIEUDAT = phieudatphong.ID_PHIEUDAT " +
-                         "AND phieudatphong.ID_KH = khachhang.ID_KH " +
-                         "AND chitietphieudat.ID_PHG = phong.ID_PHG " +
-                         "AND chitietphieudat.TRANGTHAI='Chưa checkout' " +
-                         "ORDER BY chitietphieudat.ID_PHIEUDAT ASC";
+				 String sql = "SELECT chitietphieudat.*, khachhang.*, phieudatphong.* " +
+						"FROM chitietphieudat " +
+						"JOIN phieudatphong ON chitietphieudat.ID_PHIEUDAT = phieudatphong.ID_PHIEUDAT " +
+						"JOIN khachhang ON phieudatphong.ID_KH = khachhang.ID_KH " +
+						"WHERE chitietphieudat.TRANGTHAI='Chưa checkout' " +
+						"ORDER BY chitietphieudat.ID_PHIEUDAT ASC";
 				 Statement stmt =con.createStatement();
 				 
 				 ResultSet rs=stmt.executeQuery(sql);

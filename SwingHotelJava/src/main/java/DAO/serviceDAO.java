@@ -117,10 +117,11 @@ public class serviceDAO extends connectToSQL{
     	ArrayList<serviceDTO> arrServiceInBill= new ArrayList<serviceDTO>();
     	if(openConectionToSQL()) {
     		try {
-    			String sql="SELECT dv.*, ctdv.*, hd.ID_HD " +
+    			String sql="SELECT dv.*, ctdv.*, pd.ID_PHIEUDAT , hd.ID_HD " +
                         "FROM dichvu dv " +
                         "JOIN chitietdichvu ctdv ON dv.ID_DV = ctdv.ID_DV " +
-                        "JOIN hoadon hd ON ctdv.ID_HD = hd.ID_HD";
+                        "JOIN phieudatphong pd ON ctdv.ID_PD = pd.ID_PHIEUDAT "+
+                        "JOIN hoadon hd ON pd.ID_PHIEUDAT = hd.ID_PHIEUDAT";
     			Statement stmt=con.createStatement();
     			
     			ResultSet rs=stmt.executeQuery(sql);
@@ -131,7 +132,7 @@ public class serviceDAO extends connectToSQL{
     				service.setService_name(rs.getString("TEN_DV"));
     				service.setSoluong_dv(rs.getInt("SOLUONG_DV"));
     				service.setPhi_moidichvu(rs.getDouble("TONGTIEN_DV"));
-    				service.setId_hoadon(rs.getInt("ID_HD"));   
+    				service.setId_hoadon(rs.getInt("ID_HD"));
     				
     				arrServiceInBill.add(service);
     			}

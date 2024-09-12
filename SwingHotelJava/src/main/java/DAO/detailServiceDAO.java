@@ -15,7 +15,7 @@ public class detailServiceDAO extends connectToSQL{
 				
 				PreparedStatement stmt=con.prepareStatement(sql);
 				
-				stmt.setInt(1,dlService.getId_hd());
+				stmt.setInt(1,dlService.getid_pn());
 				stmt.setInt(2,dlService.getId_dv());
 				stmt.setInt(3,dlService.getSoluong_dv());
 				stmt.setDouble(4,dlService.getTongtien_dv());

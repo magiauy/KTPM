@@ -27,6 +27,7 @@ public class staffDAO extends connectToSQL{
 					staff.setStaff_CCCD(rs.getString("CCCD_NV"));
 					staff.setStaff_phai(rs.getString("PHAI_NV"));
 					staff.setStaff_id_chucvu(rs.getInt("ID_CHUCVU"));
+					staff.setStaff_status(rs.getString("TRANGTHAI_NV"));
 					
 					arrStaff.add(staff);
 				}
@@ -58,7 +59,7 @@ public class staffDAO extends connectToSQL{
 				stmt.setString(6,staff.getStaff_phone());
 				stmt.setString(6,staff.getStaff_phai());
 				stmt.setInt(7, staff.getStaff_id_chucvu());
-				
+
 				if(stmt.executeUpdate()>=1) {
 					result=true;
 				}
@@ -75,33 +76,32 @@ public class staffDAO extends connectToSQL{
 	}
 //	Kiểm tra xóa nhân viên
 	public boolean deleteStaff(int idStaff) {
-		boolean result=false;
-		if(openConectionToSQL()) {
-			try {
-				String sql="Delete from nhanvien where ID_NV= ?";
-				
-				PreparedStatement stmt=con.prepareStatement(sql);
-				
-				stmt.setInt(1, idStaff);
-				
-				if(stmt.executeUpdate()>0) {
-					result=true;
-				}
-				
-			}catch(SQLException e) {
-				System.out.println(e);
-			}finally {
-				closeConnectionToSQL();
-			}
-		}
-		return result;
+boolean result = false;
+	    if(openConectionToSQL()) {
+	        try {
+	            String sql = "UPDATE nhanvien SET TRANGTHAI_NV = ? WHERE ID_NV = ?";
+
+	            PreparedStatement stmt = con.prepareStatement(sql);
+	            stmt.setString(1,"NGỪNG HOẠT ĐỘNG");
+	            stmt.setInt(2, idStaff);
+
+	            if(stmt.executeUpdate() > 0) {
+	                result = true;
+	            }
+	        } catch (SQLException e) {
+	            System.out.println(e);
+	        } finally {
+	            closeConnectionToSQL();
+	        }
+	    }
+	    return result;
 	}
 //	Kiểm tra chỉnh sửa nhân viên
 	public boolean editStaff(staffDTO staff) {
 		boolean result= false;
 		if(openConectionToSQL()) {
 			try {
-				String sql ="Update nhanvien set TEN_NV = ?, EMAIL= ?, SDT_NV= ?, CCCD_NV= ?, PHAI_NV= ?, ID_CHUCVU= ? where ID_NV=? ";
+				String sql ="Update nhanvien set TEN_NV = ?, EMAIL= ?, SDT_NV= ?, CCCD_NV= ?, PHAI_NV= ?, ID_CHUCVU= ?, TRANGTHAI_NV= ? where ID_NV=? ";
 				
 				PreparedStatement stmt = con.prepareStatement(sql);
 				
@@ -111,8 +111,9 @@ public class staffDAO extends connectToSQL{
 				stmt.setString(4,staff.getStaff_CCCD());
 				stmt.setString(5,staff.getStaff_phai());
 				stmt.setInt(6, staff.getStaff_id_chucvu());
+				stmt.setString(7, staff.getStaff_status());
 				
-				stmt.setInt(7, staff.getStaff_id());
+				stmt.setInt(8, staff.getStaff_id());
 				
 				if(stmt.executeUpdate()>0) {
 					result= true;

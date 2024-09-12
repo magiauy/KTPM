@@ -182,6 +182,7 @@ public class pnBooking extends JPanel {
 		cbCustomer.setBackground(new Color(255, 255, 255));
 		cbCustomer.setBounds(141, 194, 216, 33);
 		add(cbCustomer);
+
 		
 		btnReset = new JButton("Reset");
 		btnReset.addActionListener(new ActionListener() {
@@ -293,8 +294,17 @@ public class pnBooking extends JPanel {
 		for(customerDTO customer:arrCustomer) {
 			cbCustomer.addItem(customer.getCustomer_id()+"-"+customer.getCustomer_name());
 		}
+		checkstatuscustomer();
 	}
-	
+	public void checkstatuscustomer(){
+		arrCustomer=customerBUS.getAllCustomer();
+		for(customerDTO customer:arrCustomer) {
+			if(customer.getCustomer_status().equals("NGỪNG HOẠT ĐỘNG")) {
+				cbCustomer.removeItem(customer.getCustomer_id()+"-"+customer.getCustomer_name());
+			}
+		}
+
+	}
 // Update table Room
 	private void updateTableRoom() {
 		arrRoomEmpty=roomBUS.getAllRoomEmptyAndActive();
@@ -360,7 +370,7 @@ public class pnBooking extends JPanel {
 	}
 //	Cập nhật giá phòng
 	private void updateTotalFee() {
-	    if(dcStart.getDate() != null && dcEnd.getDate() != null) {
+	    if(dcStart.getDate() != null && dcEnd.getDate() != null&& !tfRoom.getText().equals("")&& !tfNameRoom.getText().equals("")) {
 	        long diff = dcEnd.getDate().getTime() - dcStart.getDate().getTime();
 	        long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	        if (days <= 0) {
@@ -431,6 +441,7 @@ private void btnAddActionPerformed(ActionEvent e) {
                 detailBooking.setDeltai_booking_id_room_step2(Integer.parseInt(tfRoom.getText().toString()));
                 detailBooking.setSum_fee_step2(Double.parseDouble(tfFeeTmp.getText()));
                 detailBooking.setDetail_booking_status("Chưa checkout");
+				detailBooking.setDetail_booking_room_name(tfNameRoom.getText());
                 
                 // Thêm chi tiết phiếu đặt
                 String message2 = detailBookingBUS.addDetailBooking(detailBooking);

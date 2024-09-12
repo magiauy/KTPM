@@ -16,6 +16,8 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class frmLogin {
 
@@ -105,9 +107,14 @@ public class frmLogin {
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        login(e);
+		        login();
 		    }
 		});
+		pfPassword.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        login();
+    }
+});
 		btnLogin.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		btnLogin.setForeground(new Color(255, 255, 255));
 		btnLogin.setBackground(new Color(0, 0, 0));
@@ -124,7 +131,7 @@ public class frmLogin {
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 	}
-	private void login(ActionEvent e) {
+	private void login() {
 	    
 	    String username = tfEmail.getText().trim();
 	    String password = new String(pfPassword.getPassword());
@@ -144,10 +151,10 @@ public class frmLogin {
 	        JOptionPane.showMessageDialog(frame, "Tên đăng nhập hoặc mật khẩu không chính xác!", "Lỗi đăng nhập", JOptionPane.ERROR_MESSAGE);
 	    }
 	}
+
 	public accountDTO getAccount() {
 		return account;
 	}
-	
 
 
 }

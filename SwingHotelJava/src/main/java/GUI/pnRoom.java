@@ -213,6 +213,7 @@ public class pnRoom extends JPanel {
 		cbStatusRoom = new JComboBox();
 		cbStatusRoom.setBackground(new Color(255, 255, 255));
 		cbStatusRoom.setBounds(208, 533, 227, 21);
+		cbStatusRoom.addItem("TRỐNG");
 		add(cbStatusRoom);
 
 		cbTypeRoom = new JComboBox();
@@ -309,7 +310,12 @@ public class pnRoom extends JPanel {
 		if(statusroom.equals("ĐÃ ĐẶT")){
 			cbStatusRoom.removeAllItems();
 			cbStatusRoom.addItem("ĐÃ ĐẶT");
-		}else{
+		}else if(statusroom.equals("NGỪNG KINH DOANH")){
+			cbStatusRoom.removeAllItems();
+			cbStatusRoom.addItem("NGỪNG KINH DOANH");
+			cbStatusRoom.addItem("TRỐNG");
+			cbStatusRoom.addItem("BẢO TRÌ");
+		}else {
 			cbStatusRoom.removeAllItems();
 			cbStatusRoom.addItem("TRỐNG");
 			cbStatusRoom.addItem("BẢO TRÌ");

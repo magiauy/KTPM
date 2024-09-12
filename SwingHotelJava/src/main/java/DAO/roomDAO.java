@@ -106,6 +106,32 @@ public class roomDAO extends connectToSQL{
 		}
 		return result;
 	}
+		public boolean updateStatusRoomtostop(roomDTO r) {
+		boolean result= false;
+		if(openConectionToSQL()) {
+			try {
+				String sql="Update phong set TINHTRANG_PHG= ? where ID_PHG= ?";
+
+				PreparedStatement stmt=con.prepareStatement(sql);
+
+				stmt.setString(1,"NGỪNG KINH DOANH");
+				stmt.setInt(2, r.getRoom_id());
+
+
+				if(stmt.executeUpdate()>0) {
+					result= true;
+				}
+
+			}catch(SQLException e) {
+				System.out.println (e);
+
+			}finally {
+				closeConnectionToSQL();
+			}
+
+		}
+		return result;
+	}
 //	Kiểm tra chỉnh sửa thông tin phòng
 	public boolean editRoom(roomDTO r) {
 		boolean result= false;

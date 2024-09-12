@@ -111,9 +111,7 @@ public class frmHomepage {
 			tglbtnBooking.setHorizontalAlignment(SwingConstants.LEFT);
 			tglbtnBooking.setBackground(new Color(175, 238, 238));
 			tglbtnBooking.setFont(new Font("SansSerif", Font.PLAIN, 15));
-			tglbtnBooking.setBounds(10, 175, 212, 41);
-			tglbtnBooking.setBorderPainted(false);//Bỏ viền btn
-			pnNevigation.add(tglbtnBooking);
+
 			
 			
 			JToggleButton tglbtnRoom = new JToggleButton("Quản lý phòng");
@@ -140,9 +138,7 @@ public class frmHomepage {
 			tglbtnRoom.setHorizontalAlignment(SwingConstants.LEFT);
 			tglbtnRoom.setBackground(new Color(175, 238, 238));
 			tglbtnRoom.setFont(new Font("SansSerif", Font.PLAIN, 15));
-			tglbtnRoom.setBounds(10, 223, 212, 41);
-			tglbtnRoom.setBorderPainted(false);//Bỏ viền btn
-			pnNevigation.add(tglbtnRoom);
+
 			
 			JToggleButton tglbtnTypeRoom = new JToggleButton("Quản lý loại phòng");
 			tglbtnTypeRoom.setIcon(new ImageIcon(frmHomepage.class.getResource("/Picture/living-room.png")));
@@ -166,9 +162,7 @@ public class frmHomepage {
 			tglbtnTypeRoom.setHorizontalAlignment(SwingConstants.LEFT);
 			tglbtnTypeRoom.setBackground(new Color(175, 238, 238));
 			tglbtnTypeRoom.setFont(new Font("SansSerif", Font.PLAIN, 15));
-			tglbtnTypeRoom.setBounds(10, 274, 212, 41);
-			tglbtnTypeRoom.setBorderPainted(false);//Bỏ viền btn
-			pnNevigation.add(tglbtnTypeRoom);
+
 			
 			JToggleButton tglbtnInvoice = new JToggleButton("Quản lý hóa đơn");
 			tglbtnInvoice.setIcon(new ImageIcon(frmHomepage.class.getResource("/Picture/book-club.png")));
@@ -192,9 +186,7 @@ public class frmHomepage {
 			tglbtnInvoice.setHorizontalAlignment(SwingConstants.LEFT);
 			tglbtnInvoice.setBackground(new Color(175, 238, 238));
 			tglbtnInvoice.setFont(new Font("SansSerif", Font.PLAIN, 15));
-			tglbtnInvoice.setBounds(10, 327, 212, 41);
-			tglbtnInvoice.setBorderPainted(false);//Bỏ viền btn
-			pnNevigation.add(tglbtnInvoice);
+
 			
 			JToggleButton tglbtnCustomer = new JToggleButton("Quản lý khách hàng");
 			tglbtnCustomer.setIcon(new ImageIcon(frmHomepage.class.getResource("/Picture/meeting.png")));
@@ -218,9 +210,7 @@ public class frmHomepage {
 			tglbtnCustomer.setHorizontalAlignment(SwingConstants.LEFT);
 			tglbtnCustomer.setBackground(new Color(175, 238, 238));
 			tglbtnCustomer.setFont(new Font("SansSerif", Font.PLAIN, 15));
-			tglbtnCustomer.setBounds(10, 378, 212, 41);
-			tglbtnCustomer.setBorderPainted(false);//Bỏ viền btn
-			pnNevigation.add(tglbtnCustomer);
+
 			
 			JToggleButton tglbtnStaff = new JToggleButton("Quản lý nhân viên");
 			tglbtnStaff.setIcon(new ImageIcon(frmHomepage.class.getResource("/Picture/teamwork (1).png")));
@@ -244,9 +234,7 @@ public class frmHomepage {
 			tglbtnStaff.setHorizontalAlignment(SwingConstants.LEFT);
 			tglbtnStaff.setBackground(new Color(175, 238, 238));
 			tglbtnStaff.setFont(new Font("SansSerif", Font.PLAIN, 15));
-			tglbtnStaff.setBounds(10, 429, 212, 41);
-			tglbtnStaff.setBorderPainted(false);//Bỏ viền btn
-			pnNevigation.add(tglbtnStaff);
+
 			
 			JToggleButton tglbtnRevenue = new JToggleButton("Thống kê");
 			tglbtnRevenue.setIcon(new ImageIcon(frmHomepage.class.getResource("/Picture/budget.png")));
@@ -270,9 +258,7 @@ public class frmHomepage {
 			tglbtnRevenue.setHorizontalAlignment(SwingConstants.LEFT);
 			tglbtnRevenue.setBackground(new Color(175, 238, 238));
 			tglbtnRevenue.setFont(new Font("SansSerif", Font.PLAIN, 15));
-			tglbtnRevenue.setBounds(10, 480, 212, 41);
-			tglbtnRevenue.setBorderPainted(false);//Bỏ viền btn
-			pnNevigation.add(tglbtnRevenue);
+
 			
 			JToggleButton tglbtnProfile = new JToggleButton("Thông tin cá nhân");
 			tglbtnProfile.setIcon(new ImageIcon(frmHomepage.class.getResource("/Picture/user (4).png")));
@@ -298,9 +284,7 @@ public class frmHomepage {
 			tglbtnProfile.setHorizontalAlignment(SwingConstants.LEFT);
 			tglbtnProfile.setBackground(new Color(175, 238, 238));
 			tglbtnProfile.setFont(new Font("SansSerif", Font.PLAIN, 15));
-			tglbtnProfile.setBounds(10, 583, 212, 41);
-			tglbtnProfile.setBorderPainted(false);//Bỏ viền btn
-			pnNevigation.add(tglbtnProfile);
+
 			
 			JToggleButton tglbtnService = new JToggleButton("Quản lý dịch vụ");
 			tglbtnService.setIcon(new ImageIcon(frmHomepage.class.getResource("/Picture/customer-service.png")));
@@ -326,9 +310,7 @@ public class frmHomepage {
 			tglbtnService.setHorizontalAlignment(SwingConstants.LEFT);
 			tglbtnService.setFont(new Font("SansSerif", Font.PLAIN, 15));
 			tglbtnService.setBorderPainted(false);
-			tglbtnService.setBackground(new Color(175, 238, 238));
-			tglbtnService.setBounds(10, 531, 212, 41);
-			pnNevigation.add(tglbtnService);
+
 			
 //			tgbtnAccount
 			JToggleButton tgbtnAccount = new JToggleButton("Quản lý tài khoản");
@@ -337,8 +319,7 @@ public class frmHomepage {
 			tgbtnAccount.setFont(new Font("SansSerif", Font.PLAIN, 15));
 			tgbtnAccount.setBorderPainted(false);
 			tgbtnAccount.setBackground(new Color(175, 238, 238));
-			tgbtnAccount.setBounds(10, 629, 212, 41);
-			pnNevigation.add(tgbtnAccount);
+
 			tgbtnAccount.setUI(new MetalToggleButtonUI() {
 			    @Override
 			    protected Color getFocusColor() {
@@ -358,19 +339,58 @@ public class frmHomepage {
 					innerpnAccount(e);
 				};
 			});
-			
-			
-			
+			// Quản lý đặt phòng
+			tglbtnBooking.setBounds(10, 175, 212, 41);
+			tglbtnBooking.setBorderPainted(false);//Bỏ viền btn
+			pnNevigation.add(tglbtnBooking);
+			// Quản lý phòng
+			tglbtnRoom.setBounds(10, 223, 212, 41);
+			tglbtnRoom.setBorderPainted(false);//Bỏ viền btn
+			pnNevigation.add(tglbtnRoom);
+			// Quản lý loại phòng
+			tglbtnTypeRoom.setBounds(10, 274, 212, 41);
+			tglbtnTypeRoom.setBorderPainted(false);//Bỏ viền btn
+			pnNevigation.add(tglbtnTypeRoom);
+			// Quản lý dịch vụ
+			tglbtnService.setBackground(new Color(175, 238, 238));
+			tglbtnService.setBounds(10, 327, 212, 41);
+			pnNevigation.add(tglbtnService);
+			// Quản lý hóa đơn
+			tglbtnInvoice.setBounds(10, 378, 212, 41);
+			tglbtnInvoice.setBorderPainted(false);//Bỏ viền btn
+			pnNevigation.add(tglbtnInvoice);
+			// Quản lý khách hàng
+			tglbtnCustomer.setBounds(10, 429, 212, 41);
+			tglbtnCustomer.setBorderPainted(false);//Bỏ viền btn
+			pnNevigation.add(tglbtnCustomer);
+			// Quản lý nhân viên
+			tglbtnStaff.setBounds(10, 480, 212, 41);
+			tglbtnStaff.setBorderPainted(false);//Bỏ viền btn
+			pnNevigation.add(tglbtnStaff);
+			// Thống kê
+			tglbtnRevenue.setBounds(10, 583, 212, 41);
+			tglbtnRevenue.setBorderPainted(false);//Bỏ viền btn
+			pnNevigation.add(tglbtnRevenue);
+
+			// Thông tin cá nhân
+			tglbtnProfile.setBounds(10, 629, 212, 41);
+			tglbtnProfile.setBorderPainted(false);//Bỏ viền btn
+			pnNevigation.add(tglbtnProfile);
+			// Quản lý tài khoản
+			tgbtnAccount.setBounds(10, 531, 212, 41);
+			pnNevigation.add(tgbtnAccount);
+
+
 //			BUTTON GROUP JTOGGLEBUTTON
 			ButtonGroup btngr= new ButtonGroup();
 			btngr.add(tglbtnBooking);
 			btngr.add(tglbtnRoom);
 			btngr.add(tglbtnTypeRoom);
+			btngr.add(tglbtnService);
 			btngr.add(tglbtnInvoice);
 			btngr.add(tglbtnCustomer);
 			btngr.add(tglbtnStaff);
 			btngr.add(tglbtnRevenue);
-			btngr.add(tglbtnService);
 			btngr.add(tglbtnProfile);
 			btngr.add(tgbtnAccount);
 			

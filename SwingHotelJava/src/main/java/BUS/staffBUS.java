@@ -5,14 +5,21 @@ import java.util.ArrayList;
 
 public class staffBUS {
 	private staffDAO stDAO= new staffDAO();
-
+	private  ArrayList<staffDTO> arrStaff= new ArrayList<staffDTO>();
+	public void loaddata() {
+		arrStaff= stDAO.getAllStaff();
+	}
 //	Lấy mảng nhân viên
 	public ArrayList<staffDTO> getAllStaff(){
 		return stDAO.getAllStaff();
 	}
 //	Kiểm tra thêm nhân viên
 	public String addStaff(staffDTO staff) {
-		if(stDAO.addStaff(staff)) {
+		if(checkID(staff.getStaff_id())) {
+			return "ID đã tồn tại";
+		}if (checkCCCD(staff.getStaff_CCCD())) {
+			return "CCCD đã tồn tại với ID là : " + getidbycccd(staff.getStaff_CCCD());
+		}if (stDAO.addStaff(staff)) {
 			return "Thêm nhân viên thành công";
 		}
 		return "Thêm nhân viên thất bại";
@@ -35,5 +42,28 @@ public class staffBUS {
 	public ArrayList<staffDTO> getAllStaffWithIDAndName(){
 		return stDAO.getAllStaffWithIDAndName();
 	}
-
+	public String getidbycccd(String CCCD) {
+		for (staffDTO staff : arrStaff) {
+			if (staff.getStaff_CCCD().equals(CCCD)) {
+				return "ID: " + staff.getStaff_id();
+			}
+		}
+		return "Không tìm thấy ID";
+	}
+	public boolean checkCCCD(String CCCD) {
+		for (staffDTO staff : arrStaff) {
+			if (staff.getStaff_CCCD().equals(CCCD)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	public boolean checkID(int id) {
+		for (staffDTO staff : arrStaff) {
+			if (staff.getStaff_id() == id) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

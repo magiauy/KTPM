@@ -29,8 +29,9 @@ public class roomBUS {
 		return "Thêm phòng thất bại";
 	}
 //	Kiểm tra xóa phòng
-	public String deleteRoom(int idRoom) {
-		if(rDAO.deleteRoom(idRoom)) {
+	public String deleteRoom(int id) {
+		roomDTO r = getroombyID(id);
+		if(rDAO.updateStatusRoomtostop(r)) {
 			return "Xóa phòng thành công";
 		}
 		return "Xóa phòng thất bại";
@@ -87,6 +88,14 @@ public class roomBUS {
 			}
 		}
 		return "";
+	}
+	public roomDTO getroombyID(int id) {
+		for(roomDTO r: listRoom) {
+			if(r.getRoom_id()==id) {
+				return r;
+			}
+		}
+		return null;
 	}
 
 }

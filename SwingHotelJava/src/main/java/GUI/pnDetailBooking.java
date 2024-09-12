@@ -205,12 +205,12 @@ public class pnDetailBooking extends JPanel {
 	    	 
 	    	 Object[] row = {id, room_name, cus_name, sum_fee, status};
 	    	 
-	    	 System.out.println(Arrays.toString(row));
+//	    	 System.out.println(Arrays.toString(row));
 
 	    	 
 	    	 try {
 	    		    modelDetailBooking.addRow(row);
-	    		    System.out.println("Thêm thành công");
+//	    		    System.out.println("Thêm thành công");
 	    		} catch (Exception e) {
 	    		    e.printStackTrace();
 	    		}
