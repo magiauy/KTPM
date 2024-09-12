@@ -6,17 +6,16 @@ import java.sql.*;
 
 import java.util.ArrayList;
 
-public class positionDAO {
-	private connectToSQL conDAO= new connectToSQL();
+public class positionDAO extends connectToSQL{
 //	Lấy mã chức vụ và tên chức vụ
 	public ArrayList<positionDTO> getAllPosition(){
 		ArrayList<positionDTO> arrPosition = new ArrayList<positionDTO>();
-		if(conDAO.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql ="Select ID_CHUCVU "
 						+ "from chucvu";
 				
-				Statement stmt= conDAO.createStatement();
+				Statement stmt= con.createStatement();
 				
 				ResultSet rs=stmt.executeQuery(sql);
 				while(rs.next()){
@@ -30,7 +29,7 @@ public class positionDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				conDAO.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return arrPosition;

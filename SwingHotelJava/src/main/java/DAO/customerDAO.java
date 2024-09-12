@@ -4,39 +4,11 @@ import DTO.customerDTO;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class customerDAO {
-	private Connection con;//Thiết lập kết nối
-//	Thiết lập & Kiểm tra kết nối
-	public boolean openConectionToCustomer() {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			String url="jdbc:mysql://localhost:3306/hotelmanager?serverTimezone=UTC";
-			String username="root";
-			String password="";
-			
-			con=DriverManager.getConnection(url,username,password);
-			
-			return true;
-			
-		}catch(Exception e) {
-			System.out.println(e);
-			return false;
-		}
-	}
-//	Đóng kết nối
-	public void closeConnectionToCustomer() {
-		try {
-			if(con!=null) {
-				con.close();
-			}
-		}catch(SQLException e) {
-			System.out.println(e);
-		}
-	}
+public class customerDAO extends connectToSQL {
 //	Lấy toàn bộ customer từ database trả về mảng
 	public ArrayList<customerDTO> getAllCustomers(){
 		ArrayList<customerDTO> arrCustomer= new ArrayList<customerDTO>();
-		if(openConectionToCustomer()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Select * from khachhang";
 				
@@ -59,7 +31,7 @@ public class customerDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				closeConnectionToCustomer();
+				closeConnectionToSQL();
 			}
 		}
 		return arrCustomer;
@@ -67,7 +39,7 @@ public class customerDAO {
 //	Kiểm tra thêm  khách hàng vào database
 	public boolean addCustomer(customerDTO ctm) {
 		boolean result= false;
-		if(openConectionToCustomer()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Insert into khachhang values(?,?,?,?,?,?)";
 				
@@ -85,7 +57,7 @@ public class customerDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				closeConnectionToCustomer();
+				closeConnectionToSQL();
 			}
 		}
 		return result;
@@ -93,7 +65,7 @@ public class customerDAO {
 	// Delete Customertheo ID, boolean
 	public boolean deleteCustomer(int ctmId) {
 	    boolean result = false;
-	    if(openConectionToCustomer()) {
+	    if(openConectionToSQL()) {
 	        try {
 	            String sql = "DELETE FROM khachhang WHERE ID_KH = ?";
 	            
@@ -107,7 +79,7 @@ public class customerDAO {
 	        } catch (SQLException e) {
 	            System.out.println(e);
 	        } finally {
-	            closeConnectionToCustomer();
+	            closeConnectionToSQL();
 	        }
 	    }
 	    return result;
@@ -116,7 +88,7 @@ public class customerDAO {
 //	Sửa thông tin khách hàng boolean
 	public boolean editCustomer(customerDTO ctm) {
 	    boolean result = false;
-	    if (openConectionToCustomer()) {
+	    if (openConectionToSQL()) {
 	        try {
 	            String sql = "UPDATE khachhang SET TEN_KH = ?, PHAI_KH = ?, SDT_KH = ?, EMAIL_KH = ?, CCCD_KH = ? WHERE ID_KH = ?";
 	            
@@ -135,7 +107,7 @@ public class customerDAO {
 	        } catch (SQLException e) {
 	            System.out.println(e);
 	        } finally {
-	            closeConnectionToCustomer();
+	            closeConnectionToSQL();
 	        }
 	    }
 	    return result;
@@ -143,7 +115,7 @@ public class customerDAO {
 //	Kiểm tra trùng ID customer
 	public boolean hasCustomerID(int id) {
 		boolean result= false;
-		if(openConectionToCustomer()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Select * from khachhang where ID_KH= ?";
 				
@@ -157,7 +129,7 @@ public class customerDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				closeConnectionToCustomer();
+				closeConnectionToSQL();
 			}
 		}
 		return result;

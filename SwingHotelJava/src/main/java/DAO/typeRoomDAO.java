@@ -3,42 +3,13 @@ import DTO.typeRoomDTO;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class typeRoomDAO {
-	private static final String PreparedStatement = null;
-	private Connection con;
-//	Thiết lập kiểm tra kết nối
-	public boolean openConectionToTypeRoom() {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			
-			String url="jdbc:mysql://localhost:3306/hotelmanager?serverTimezone=UTC";
-			String username="root";
-			String password="";
-			
-			con=DriverManager.getConnection(url,username,password);
-		
-			return true;
-		}catch(Exception e) {
-			System.out.println(e);
-			return false;
-		}
-		
-	}
-//	Đóng kết nối
-	public void closeConnectionToTypeRoom() {
-		try {
-			if(con!=null) {
-				con.close();
-			}
-			
-		}catch(SQLException e) {
-			System.out.println(e);
-		}
-	}
+public class typeRoomDAO extends connectToSQL {
+
+
 //	Danh sách Loại phòng
 	public ArrayList<typeRoomDTO> getAllTypeRooms(){
 		ArrayList<typeRoomDTO> arrTypeRooms= new ArrayList<typeRoomDTO>();
-		if(openConectionToTypeRoom()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Select * from loaiphong";
 				
@@ -61,7 +32,7 @@ public class typeRoomDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				closeConnectionToTypeRoom();
+				closeConnectionToSQL();
 			}
 			
 		}
@@ -70,7 +41,7 @@ public class typeRoomDAO {
 //	Lấy danh sách loại phòng ( lấy mã, tên loại phòng)
 	public ArrayList<typeRoomDTO> getAllTypeRoomsIdAndName(){
 		ArrayList<typeRoomDTO> arrTypeRoomsIdAndName= new ArrayList<typeRoomDTO>();
-		if(openConectionToTypeRoom()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Select ID_LOAIPHG, TEN_LOAIPHG "
 						+ "from loaiphong where"
@@ -92,7 +63,7 @@ public class typeRoomDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				closeConnectionToTypeRoom();
+				closeConnectionToSQL();
 			}
 			
 		}
@@ -101,7 +72,7 @@ public class typeRoomDAO {
 //	Kiểm tra trùng ID
 	public boolean hasIDTypeRoom(int id) {
 		boolean result= false;
-		if(openConectionToTypeRoom()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Select * from loaiphong where ID_LOAIPHG= ?";
 						
@@ -116,7 +87,7 @@ public class typeRoomDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				closeConnectionToTypeRoom();
+				closeConnectionToSQL();
 			}
 		}
 		return result;
@@ -124,7 +95,7 @@ public class typeRoomDAO {
 //	Kiểm tra thêm loại phòng
 	public boolean addTypeRoom(typeRoomDTO tr) {
 		boolean result=false;
-		if(openConectionToTypeRoom()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Insert into loaiphong values(?,?,?,?,?)";
 				
@@ -143,7 +114,7 @@ public class typeRoomDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				closeConnectionToTypeRoom();
+				closeConnectionToSQL();
 			}
 		}
 		return result;
@@ -151,7 +122,7 @@ public class typeRoomDAO {
 //	Kiểm tra xóa phòng
 	public boolean deleteTypeRoom(int trId) {
 		boolean result= false;
-		if(openConectionToTypeRoom()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Delete from loaiphong where ID_LOAIPHG= ?";
 				
@@ -167,7 +138,7 @@ public class typeRoomDAO {
 				System.out.println(e);
 				
 			}finally {
-				closeConnectionToTypeRoom();
+				closeConnectionToSQL();
 			}
 		}
 		
@@ -177,7 +148,7 @@ public class typeRoomDAO {
 //	Kiểm tra chỉnh sửa thông tin phòng
 	public boolean editTypeRoom(typeRoomDTO tr) {
 		boolean result= false;
-		if(openConectionToTypeRoom()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Update loaiphong set TEN_LOAIPHG= ?, DONGIA_PHG= ?, MOTA_PHG= ?, TRANGTHAI_LOAIPHG= ? where ID_LOAIPHG= ?";
 				
@@ -196,7 +167,7 @@ public class typeRoomDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				closeConnectionToTypeRoom();
+				closeConnectionToSQL();
 			}
 		}
 		return result;

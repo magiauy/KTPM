@@ -5,12 +5,11 @@ import java.util.ArrayList;
 
 import DTO.detailServiceDTO;
 
-public class detailServiceDAO {
-	private connectToSQL con= new connectToSQL();
+public class detailServiceDAO extends connectToSQL{
 //	Thêm dịch vụ
 	public boolean addDetailSerice(detailServiceDTO dlService) {
 		boolean result= false;
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Insert into chitietdichvu values(?,?,?,?)";
 				
@@ -20,15 +19,15 @@ public class detailServiceDAO {
 				stmt.setInt(2,dlService.getId_dv());
 				stmt.setInt(3,dlService.getSoluong_dv());
 				stmt.setDouble(4,dlService.getTongtien_dv());
-	
+
 				if(stmt.executeUpdate()>=1) {
 					result=true;
 				}
-				
+
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return result;

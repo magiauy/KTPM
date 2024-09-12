@@ -4,42 +4,12 @@ import java.sql.*;
 import DTO.serviceDTO;
 import java.util.ArrayList;
 
-public class serviceDAO {
-    private Connection con;// Thiết lập kết nối
-    // Thiết lập & Kiểm tra kết nối
-
-    public boolean openConnectionToService() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/hotelmanager?serverTimezone=UTC";
-            String username = "root";
-            String password = "";
-
-            con = DriverManager.getConnection(url, username, password);
-
-            return true;
-
-        } catch (Exception e) {
-            System.out.println(e);
-            return false;
-        }
-    }
-
-    // Đóng kết nối
-    public void closeConnectionToService() {
-        try {
-            if (con != null) {
-                con.close();
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-    }
+public class serviceDAO extends connectToSQL{
 
     // Lấy toàn bộ service từ database trả về mảng
     public ArrayList<serviceDTO> getAllService() {
         ArrayList<serviceDTO> arrService = new ArrayList<serviceDTO>();
-        if (openConnectionToService()) {
+        if (openConectionToSQL()) {
             try {
                 String sql = "Select * from dichvu";
                 Statement stmt = con.createStatement();
@@ -55,7 +25,7 @@ public class serviceDAO {
             } catch (SQLException e) {
                 System.out.println(e);
             } finally {
-                closeConnectionToService();
+                closeConnectionToSQL();
             }
         }
         return arrService;
@@ -63,7 +33,7 @@ public class serviceDAO {
 
     public boolean addService(serviceDTO sv) {
         boolean result = false;
-        if (openConnectionToService()) {
+        if (openConectionToSQL()) {
             try {
                 String sql = "Insert into dichvu values (?,?,?,?)";
                 PreparedStatement stmt = con.prepareStatement(sql);
@@ -77,7 +47,7 @@ public class serviceDAO {
             } catch (SQLException e) {
                 System.out.println(e);
             } finally {
-                closeConnectionToService();
+                closeConnectionToSQL();
             }
         }
         return result;
@@ -86,7 +56,7 @@ public class serviceDAO {
     // Delete Service theo ID , boolean
     public boolean deleteService(int svId) {
         boolean result = false;
-        if (openConnectionToService()) {
+        if (openConectionToSQL()) {
             try {
                 String sql = "Delete from dichvu where ID_DV = ? ";
                 PreparedStatement stmt = con.prepareStatement(sql);
@@ -97,7 +67,7 @@ public class serviceDAO {
             } catch (SQLException e) {
                 System.out.println(e);
             } finally {
-                closeConnectionToService();
+                closeConnectionToSQL();
             }
         }
         return result;
@@ -105,7 +75,7 @@ public class serviceDAO {
 
     public boolean editService(serviceDTO sv) {
         boolean result = false;
-        if (openConnectionToService()) {
+        if (openConectionToSQL()) {
             try {
                 String sql = "update dichvu set TEN_DV = ? , DONGIA_DV = ? , MOTA_DV = ? where ID_DV = ?";
                 PreparedStatement stmt = con.prepareStatement(sql);
@@ -119,7 +89,7 @@ public class serviceDAO {
             } catch (SQLException e) {
                 System.out.println(e);
             } finally {
-                closeConnectionToService();
+                closeConnectionToSQL();
             }
         }
         return result;
@@ -127,7 +97,7 @@ public class serviceDAO {
 
     public boolean hasServiceID(int id) {
         boolean result = false;
-        if (openConnectionToService()) {
+        if (openConectionToSQL()) {
             try {
                 String sql = "SELECT * FROM dichvu WHERE ID_DV = ?";
                 PreparedStatement stmt = con.prepareStatement(sql);
@@ -137,7 +107,7 @@ public class serviceDAO {
             } catch (SQLException e) {
                 System.out.println(e);
             } finally {
-                closeConnectionToService();
+                closeConnectionToSQL();
             }
         }
         return result;
@@ -145,7 +115,7 @@ public class serviceDAO {
 //    Lấy mảng dịch vụ kết với "chitietdichvu, hoadon"
     public ArrayList<serviceDTO> gettAllServiceInBIll(){
     	ArrayList<serviceDTO> arrServiceInBill= new ArrayList<serviceDTO>();
-    	if(openConnectionToService()) {
+    	if(openConectionToSQL()) {
     		try {
     			String sql="SELECT dv.*, ctdv.*, hd.ID_HD " +
                         "FROM dichvu dv " +
@@ -157,7 +127,7 @@ public class serviceDAO {
     			
     			while(rs.next()) {
     				serviceDTO service = new serviceDTO();
-    				
+
     				service.setService_name(rs.getString("TEN_DV"));
     				service.setSoluong_dv(rs.getInt("SOLUONG_DV"));
     				service.setPhi_moidichvu(rs.getDouble("TONGTIEN_DV"));
@@ -169,7 +139,7 @@ public class serviceDAO {
     		}catch(SQLException e) {
     			System.out.println(e);
     		}finally {
-    			closeConnectionToService();
+    			closeConnectionToSQL();
     		}
     	}
     		return arrServiceInBill;

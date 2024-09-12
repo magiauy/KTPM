@@ -5,12 +5,11 @@ import java.util.ArrayList;
 import java.sql.*;
 import DAO.connectToSQL;
 
-public class staffDAO {
-	private  connectToSQL con= new connectToSQL();
+public class staffDAO extends connectToSQL{
 //	Lấy danh sách nhân viên trả về mảng
 	public ArrayList<staffDTO> getAllStaff(){
 		ArrayList<staffDTO> arrStaff = new ArrayList<staffDTO>();
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Select * from nhanvien ";
 				
@@ -36,7 +35,7 @@ public class staffDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 			
 		}
@@ -45,7 +44,7 @@ public class staffDAO {
 //	Kiểm tra thêm nhân viên
 	public boolean addStaff(staffDTO staff) {
 		boolean result= false;
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Insert into nhanvien values(?,?,?,?,?,?,?)";
 				
@@ -69,7 +68,7 @@ public class staffDAO {
 				System.out.println(e);
 				
 			}finally{
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return result;
@@ -77,7 +76,7 @@ public class staffDAO {
 //	Kiểm tra xóa nhân viên
 	public boolean deleteStaff(int idStaff) {
 		boolean result=false;
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Delete from nhanvien where ID_NV= ?";
 				
@@ -92,7 +91,7 @@ public class staffDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return result;
@@ -100,7 +99,7 @@ public class staffDAO {
 //	Kiểm tra chỉnh sửa nhân viên
 	public boolean editStaff(staffDTO staff) {
 		boolean result= false;
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql ="Update nhanvien set TEN_NV = ?, EMAIL= ?, SDT_NV= ?, CCCD_NV= ?, PHAI_NV= ?, ID_CHUCVU= ? where ID_NV=? ";
 				
@@ -122,7 +121,7 @@ public class staffDAO {
 			}catch(SQLException e ) {
 				System.out.println(e);
 			}finally {
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return result;
@@ -130,7 +129,7 @@ public class staffDAO {
 //	Lấy mảng nhân viên bao gồm ID và tên
 	public ArrayList<staffDTO> getAllStaffWithIDAndName(){
 		ArrayList<staffDTO> arrStaff = new ArrayList<staffDTO>();
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Select ID_NV, TEN_NV"
 						+ " from nhanvien ";
@@ -153,7 +152,7 @@ public class staffDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 			
 		}

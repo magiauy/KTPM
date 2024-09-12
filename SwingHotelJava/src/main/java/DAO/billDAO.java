@@ -6,12 +6,11 @@ import DTO.billDTO;
 import java.sql.*;
 
 
-public class billDAO {
-	private connectToSQL con = new connectToSQL();
+public class billDAO extends connectToSQL{
 //	Lấy tất cả hóa đơn
 	public ArrayList<billDTO> getAllBill(){
 		ArrayList<billDTO> arrBill = new ArrayList<>();
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql = "Select * from hoadon";
 				
@@ -34,7 +33,7 @@ public class billDAO {
 			}catch(SQLException e) {
 				
 			}finally {
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return arrBill;
@@ -42,7 +41,7 @@ public class billDAO {
 //	Thêm bill
 	public boolean addBill(billDTO bill) {
 		boolean result= false;
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Insert into hoadon values(?,?,?,?,?)";
 				
@@ -61,7 +60,7 @@ public class billDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return result;
@@ -70,7 +69,7 @@ public class billDAO {
 	public ArrayList<billDTO> getAllBillDetail(){
 		ArrayList<billDTO> arrBillDetail =new ArrayList<billDTO>();
 		HashMap<Integer, Boolean> idHDMap = new HashMap<>(); 
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql = "SELECT hd.*, p.*, kh.*, pdp.*, ctp.* " +
 	                     "FROM hoadon hd " +
@@ -109,7 +108,7 @@ public class billDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 			
 		}

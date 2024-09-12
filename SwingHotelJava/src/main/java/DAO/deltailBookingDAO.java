@@ -8,12 +8,11 @@ import DTO.roomDTO;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class deltailBookingDAO {
-	private connectToSQL con= new connectToSQL();
+public class deltailBookingDAO extends connectToSQL{
 //	Chi tiết đặt phòng, kết bảng Phòng, Phiếu đặt, Khách hàng
 	public ArrayList<detailBookingDTO> getAllDeatailBooking(){
 		ArrayList<detailBookingDTO> arrDetailBooking = new ArrayList<detailBookingDTO>();
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 //				Kết 4 bảng á
 				  String sql = "SELECT chitietphieudat.*, khachhang.TEN_KH, phong.TEN_PHG " +
@@ -46,7 +45,7 @@ public class deltailBookingDAO {
 				System.out.println(e);
 				
 			}finally {
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return arrDetailBooking;
@@ -55,7 +54,7 @@ public class deltailBookingDAO {
 //	Thêm chi tiết phiếu đặt
 	public boolean addDetailBooking(detailBookingDTO detailBooking) {
 		boolean result= false;
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Insert into chitietphieudat values(?,?,?,?)";
 				
@@ -74,7 +73,7 @@ public class deltailBookingDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return result;
@@ -82,7 +81,7 @@ public class deltailBookingDAO {
 //	Lấy ra  những chi tiết phiếu đặt ở trạng thái "Chưa checkout"
 	public ArrayList<detailBookingDTO> getDetailBookingNotCheckout(){
 		ArrayList<detailBookingDTO> arrDetailBookingNotCheckout= new ArrayList<detailBookingDTO>();
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				 String sql = "SELECT chitietphieudat.*, khachhang.*, phong.*, phieudatphong.* " +
                          "FROM chitietphieudat, phieudatphong, khachhang, phong " +
@@ -116,7 +115,7 @@ public class deltailBookingDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return arrDetailBookingNotCheckout;
@@ -124,7 +123,7 @@ public class deltailBookingDAO {
 //	Set lại trạng thái chi tiết phiếu đặt là "Đã checkout"
 	public boolean updateStatusDetailBooking(detailBookingDTO dl) {
 		boolean result= false;
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Update chitietphieudat set TRANGTHAI= ? where ID_PHIEUDAT= ?";
 				
@@ -142,7 +141,7 @@ public class deltailBookingDAO {
 				System.out.println (e);
 				
 			}finally {
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 			
 		}

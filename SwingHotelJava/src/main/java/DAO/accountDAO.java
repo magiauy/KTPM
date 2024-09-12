@@ -8,13 +8,12 @@ import DAO.connectToSQL;
 // Câu lệnh sql có tham số thì dùng PreparedStatement
 
  
-public class accountDAO {
+public class accountDAO extends connectToSQL{
 
-	private connectToSQL con= new connectToSQL();
 //	Lấy tất cả tài khoản trả về mảng
 	public ArrayList<accountDTO> getAllAccount(){
 		ArrayList<accountDTO> arrAccount = new ArrayList<accountDTO>();
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Select * from taikhoan";
 				
@@ -36,7 +35,7 @@ public class accountDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return arrAccount;
@@ -44,7 +43,7 @@ public class accountDAO {
 //	Kiểm tra thêm tài khoản
 	public boolean addAccount(accountDTO account) {
 		boolean result= false;
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Insert into taikhoan values(?,?,?,?)";
 				
@@ -65,7 +64,7 @@ public class accountDAO {
 				System.out.println(e);
 				
 			}finally{
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return result;
@@ -74,7 +73,7 @@ public class accountDAO {
 //	Kiểm tra xóa tài khoản
 	public boolean deleteAccount(int idAccount) {
 		boolean result = false;
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql= "Delete from taikhoan where ID_TK= ?";
 				
@@ -90,7 +89,7 @@ public class accountDAO {
 				System.out.println(e);
 				
 			}finally {
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return result;
@@ -98,7 +97,7 @@ public class accountDAO {
 //	Kiểm tra chỉnh sửa tài khoản
 	public boolean editAccount(accountDTO account) {
 		boolean result = false;
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Update taikhoan set USERNAME= ?, password= ?, ID_NV= ? where ID_TK= ?";
 				
@@ -117,7 +116,7 @@ public class accountDAO {
 				System.out.println(e);
 				
 			}finally {
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return result;
@@ -125,7 +124,7 @@ public class accountDAO {
 //	Kiểm tra nhân viên đã có tài khoản(1 nhân viên có 1 tài khoản duy nhất)
 	public boolean hasIDNVInAccount(int idIDNV) {
 		boolean result=false;
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Select * from taikhoan where ID_NV= ?";
 				
@@ -141,7 +140,7 @@ public class accountDAO {
 				System.out.println(e);
 				
 			}finally {
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return result;
@@ -149,7 +148,7 @@ public class accountDAO {
 //	Xử lý đăng nhập, lấy thông tin tài khoản ứng với nhân viên tương ứng, đồng thời lấy hết các thuộc tính trong bảng nhân viên
 	public accountDTO login(String username, String password) {
 	    accountDTO account = null;
-	    if(con.openConectionToSQL()) {
+	    if(openConectionToSQL()) {
 	        try {
 	            String sql = "SELECT "
 	            		+ "taikhoan.ID_TK, taikhoan.USERNAME, taikhoan.ID_NV, "
@@ -187,7 +186,7 @@ public class accountDAO {
 	        } catch(SQLException e) {
 	            System.out.println(e);
 	        } finally {
-	            con.closeConnectionToSQL();
+	            closeConnectionToSQL();
 	        }
 	    }
 	    return account;

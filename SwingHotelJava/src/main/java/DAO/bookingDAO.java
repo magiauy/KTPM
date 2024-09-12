@@ -5,12 +5,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import DAO.connectToSQL;
 
-public class bookingDAO {
-	private connectToSQL con= new connectToSQL();
+public class bookingDAO extends connectToSQL{
 //	Lấy mảng phiếu đặt
 	public ArrayList<bookingDTO> getAllBooking(){
 		ArrayList<bookingDTO> arrBooking = new ArrayList<bookingDTO>();
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Select * from phieudatphong";
 				
@@ -33,7 +32,7 @@ public class bookingDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return arrBooking;
@@ -41,7 +40,7 @@ public class bookingDAO {
 //	Thêm phiếu đặt
 	public boolean addBooking(bookingDTO booking) {
 		boolean result=false;
-		if(con.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="INSERT INTO phieudatphong  VALUES (?, ?, ?, ?, ?)";
 				
@@ -62,7 +61,7 @@ public class bookingDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				con.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return result;

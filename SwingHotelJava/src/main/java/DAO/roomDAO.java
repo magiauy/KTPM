@@ -6,16 +6,15 @@ import java.util.ArrayList;
 import java.sql.*;
 
 
-public class roomDAO {
-	private connectToSQL conDAO= new connectToSQL();
+public class roomDAO extends connectToSQL{
 //	Kiem tra them Phong
 	public boolean addRoom(roomDTO r) {
 		boolean result=false;
-		if(conDAO.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Insert into phong values(?,?,?,?)";
 				
-				PreparedStatement stmt=conDAO.prepareStatement(sql);
+				PreparedStatement stmt=con.prepareStatement(sql);
 				
 				stmt.setInt(1,r.getRoom_id());
 				stmt.setString(2,r.getRoom_name());
@@ -30,7 +29,7 @@ public class roomDAO {
 				System.out.println(e);
 				
 			}finally {
-				conDAO.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return result;
@@ -38,11 +37,11 @@ public class roomDAO {
 //	Kiem tra trung ID
 	public boolean hasIDRoom(int idRoom) {
 		boolean result=false;
-		if(conDAO.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Select * from phong where ID_PHG= ?";
 				
-				PreparedStatement stmt=conDAO.prepareStatement(sql);
+				PreparedStatement stmt=con.prepareStatement(sql);
 				
 				stmt.setInt(1,idRoom);
 				
@@ -54,7 +53,7 @@ public class roomDAO {
 				System.out.println(e);
 				
 			}finally {
-				conDAO.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return result;
@@ -62,12 +61,12 @@ public class roomDAO {
 //	Kiểm tra trùng tên
 	public boolean hasNameRoom(String name) {
 	    boolean result = false;
-	    if (conDAO.openConectionToSQL()) {
+	    if (openConectionToSQL()) {
 	        try {
 	            
 	            String sql = "SELECT * FROM phong WHERE TEN_PHG = ?";
 	            
-	            PreparedStatement stmt = conDAO.prepareStatement(sql);
+	            PreparedStatement stmt = con.prepareStatement(sql);
 	            
 	            stmt.setString(1, name);  
 	            
@@ -78,7 +77,7 @@ public class roomDAO {
 	        } catch (SQLException e) {
 	            System.out.println(e);
 	        } finally {
-	            conDAO.closeConnectionToSQL();
+	            closeConnectionToSQL();
 	        }
 	    }
 	    return result;
@@ -87,11 +86,11 @@ public class roomDAO {
 //	Kiểm tra xóa phòng
 	public boolean deleteRoom(int idRoom) {
 		boolean result= false;
-		if(conDAO.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Delete from phong where ID_PHG= ?";
 				
-				PreparedStatement stmt=conDAO.prepareStatement(sql);
+				PreparedStatement stmt=con.prepareStatement(sql);
 				
 				stmt.setInt(1,idRoom);
 				
@@ -102,7 +101,7 @@ public class roomDAO {
 			}catch(SQLException e) {
 				
 			}finally {
-				conDAO.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}	
 		}
 		return result;
@@ -110,11 +109,11 @@ public class roomDAO {
 //	Kiểm tra chỉnh sửa thông tin phòng
 	public boolean editRoom(roomDTO r) {
 		boolean result= false;
-		if(conDAO.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Update phong set TEN_PHG= ?, ID_LOAIPHG= ?, TINHTRANG_PHG= ? where ID_PHG= ?";
 				
-				PreparedStatement stmt=conDAO.prepareStatement(sql);
+				PreparedStatement stmt=con.prepareStatement(sql);
 				
 				stmt.setString(1,r.getRoom_name());
 				stmt.setInt(2,r.getTypeRoome_id());
@@ -129,7 +128,7 @@ public class roomDAO {
 				System.out.println (e);
 				
 			}finally {
-				conDAO.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 			
 		}
@@ -138,7 +137,7 @@ public class roomDAO {
 //	Lấy tất cả những phòng có trạng thái trống và đang hoạt động và giá phòng
 	public ArrayList<roomDTO> getAllRoomEmptyAndActive(){
 		ArrayList<roomDTO> arrRoomEmpty= new ArrayList<roomDTO>();
-		if(conDAO.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql = "SELECT phong.*, loaiphong.TEN_LOAIPHG, loaiphong.DONGIA_PHG " +
 			             "FROM phong, loaiphong " +
@@ -146,7 +145,7 @@ public class roomDAO {
 			             "AND phong.TINHTRANG_PHG='TRỐNG'"+
 			             "AND loaiphong.TRANGTHAI_LOAIPHG='Hoạt động'";
 			
-				Statement stmt=conDAO.createStatement();
+				Statement stmt=createStatement();
 				
 				ResultSet rs= stmt.executeQuery(sql);
 				
@@ -166,7 +165,7 @@ public class roomDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				conDAO.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return arrRoomEmpty;
@@ -175,11 +174,11 @@ public class roomDAO {
 //	Lấy danh sách phòng
 	public ArrayList<roomDTO> getAllRooms(){
 		ArrayList<roomDTO> arrRoom= new ArrayList<roomDTO>();
-		if(conDAO.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="SELECT * from phong";
 				
-				Statement stmt=conDAO.createStatement();
+				Statement stmt=con.createStatement();
 				
 				ResultSet rs=stmt.executeQuery(sql);
 				
@@ -197,7 +196,7 @@ public class roomDAO {
 			}catch(SQLException e) {
 				
 			}finally {
-				conDAO.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return arrRoom;
@@ -205,14 +204,14 @@ public class roomDAO {
 //	Lấy phòng ở trạng thái HOẠT ĐỘNG
 	public ArrayList<roomDTO> getAllRoomActive(){
 		ArrayList<roomDTO> arrRoomEmpty= new ArrayList<roomDTO>();
-		if(conDAO.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql = "SELECT phong.*, loaiphong.TEN_LOAIPHG " +
 			             "FROM phong, loaiphong " +
 			             "WHERE phong.ID_LOAIPHG = loaiphong.ID_LOAIPHG " + 
 			             "AND loaiphong.TRANGTHAI_LOAIPHG='Hoạt động'";
 			
-				Statement stmt=conDAO.createStatement();
+				Statement stmt=con.createStatement();
 				
 				ResultSet rs= stmt.executeQuery(sql);
 				
@@ -232,7 +231,7 @@ public class roomDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				conDAO.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return arrRoomEmpty;
@@ -240,11 +239,11 @@ public class roomDAO {
 //	Update lại trạng thái phòng Đã đặt
 	public boolean updateStatusRoom(roomDTO r) {
 		boolean result= false;
-		if(conDAO.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Update phong set TINHTRANG_PHG= ? where ID_PHG= ?";
 				
-				PreparedStatement stmt=conDAO.prepareStatement(sql);
+				PreparedStatement stmt=con.prepareStatement(sql);
 			
 				stmt.setString(1,"ĐÃ ĐẶT");
 				stmt.setInt(2, r.getRoom_id());
@@ -258,7 +257,7 @@ public class roomDAO {
 				System.out.println (e);
 				
 			}finally {
-				conDAO.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 			
 		}
@@ -267,11 +266,11 @@ public class roomDAO {
 //	Update lại trạng tháu phòng trống
 	public boolean updateStatusRoomEmpty(roomDTO r) {
 		boolean result= false;
-		if(conDAO.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Update phong set TINHTRANG_PHG= ? where ID_PHG= ?";
 				
-				PreparedStatement stmt=conDAO.prepareStatement(sql);
+				PreparedStatement stmt=con.prepareStatement(sql);
 			
 				stmt.setString(1,"TRỐNG");
 				stmt.setInt(2, r.getRoom_id());
@@ -285,7 +284,7 @@ public class roomDAO {
 				System.out.println (e);
 				
 			}finally {
-				conDAO.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 			
 		}
@@ -299,11 +298,11 @@ public class roomDAO {
 //	Lấy danh sách phòng
 	public ArrayList<roomDTO> getAllRoom(){
 		ArrayList<roomDTO> arrRoom= new ArrayList<roomDTO>();
-		if(conDAO.openConectionToSQL()) {
+		if(openConectionToSQL()) {
 			try {
 				String sql="Select * from phong";
 				
-				Statement stmt=conDAO.createStatement();
+				Statement stmt=con.createStatement();
 				
 				ResultSet rs=stmt.executeQuery(sql);
 				
@@ -320,7 +319,7 @@ public class roomDAO {
 			}catch(SQLException e) {
 				System.out.println(e);
 			}finally {
-				conDAO.closeConnectionToSQL();
+				closeConnectionToSQL();
 			}
 		}
 		return arrRoom;

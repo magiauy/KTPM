@@ -7,13 +7,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class connectToSQL {
-	private Connection con;
+	protected Connection con;
 //	Thiết lập kiểm tra kết nối
 	public boolean openConectionToSQL() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			
-			String url="jdbc:mysql://localhost:3306/uydb";
+			String url="jdbc:mysql://localhost:3306/ktpm";
 			String username="root";
 			String password="";
 			
