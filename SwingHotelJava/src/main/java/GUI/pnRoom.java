@@ -86,6 +86,7 @@ public class pnRoom extends JPanel {
 
 	// Tải giao diện
 	private void initComponent() {
+		rBUS.loaddata();
 		setBackground(new Color(255, 255, 255));
 		setBounds(222, 44, 1089, 590);
 		setLayout(null);
@@ -212,8 +213,6 @@ public class pnRoom extends JPanel {
 		cbStatusRoom = new JComboBox();
 		cbStatusRoom.setBackground(new Color(255, 255, 255));
 		cbStatusRoom.setBounds(208, 533, 227, 21);
-		cbStatusRoom.addItem("TRỐNG");
-		cbStatusRoom.addItem("ĐÃ ĐẶT");
 		add(cbStatusRoom);
 
 		cbTypeRoom = new JComboBox();
@@ -297,6 +296,7 @@ public class pnRoom extends JPanel {
 		tfID.setEnabled(false);
 		int i = table.getSelectedRow();
 		if (i >= 0) {
+			Statusroomcb(modelRoom.getValueAt(i, 4).toString());
 			tfID.setText(modelRoom.getValueAt(i, 0).toString());
 			tfNameRoom.setText(modelRoom.getValueAt(i, 1).toString());
 			cbTypeRoom.setSelectedItem(modelRoom.getValueAt(i, 2).toString() + "-"
@@ -305,7 +305,16 @@ public class pnRoom extends JPanel {
 		}
 
 	}
-
+	public void Statusroomcb(String statusroom){
+		if(statusroom.equals("ĐÃ ĐẶT")){
+			cbStatusRoom.removeAllItems();
+			cbStatusRoom.addItem("ĐÃ ĐẶT");
+		}else{
+			cbStatusRoom.removeAllItems();
+			cbStatusRoom.addItem("TRỐNG");
+			cbStatusRoom.addItem("BẢO TRÌ");
+		}
+	}
 	// Set ID trong tfID tăng tự động
 	private void autotfID() {
 		arrRoom=rBUS.getAllRooms();

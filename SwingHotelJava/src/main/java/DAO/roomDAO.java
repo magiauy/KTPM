@@ -34,54 +34,54 @@ public class roomDAO extends connectToSQL{
 		}
 		return result;
 	}
-//	Kiem tra trung ID
-	public boolean hasIDRoom(int idRoom) {
-		boolean result=false;
-		if(openConectionToSQL()) {
-			try {
-				String sql="Select * from phong where ID_PHG= ?";
-				
-				PreparedStatement stmt=con.prepareStatement(sql);
-				
-				stmt.setInt(1,idRoom);
-				
-				ResultSet rs=stmt.executeQuery();
-				
-				result=rs.next();
-				
-			}catch(SQLException e) {
-				System.out.println(e);
-				
-			}finally {
-				closeConnectionToSQL();
-			}
-		}
-		return result;
-	}
-//	Kiểm tra trùng tên
-	public boolean hasNameRoom(String name) {
-	    boolean result = false;
-	    if (openConectionToSQL()) {
-	        try {
-	            
-	            String sql = "SELECT * FROM phong WHERE TEN_PHG = ?";
-	            
-	            PreparedStatement stmt = con.prepareStatement(sql);
-	            
-	            stmt.setString(1, name);  
-	            
-	            ResultSet rs = stmt.executeQuery();
-	            
-	            result = rs.next();  
-	            
-	        } catch (SQLException e) {
-	            System.out.println(e);
-	        } finally {
-	            closeConnectionToSQL();
-	        }
-	    }
-	    return result;
-	}
+////	Kiem tra trung ID
+//	public boolean hasIDRoom(int idRoom) {
+//		boolean result=false;
+//		if(openConectionToSQL()) {
+//			try {
+//				String sql="Select * from phong where ID_PHG= ?";
+//
+//				PreparedStatement stmt=con.prepareStatement(sql);
+//
+//				stmt.setInt(1,idRoom);
+//
+//				ResultSet rs=stmt.executeQuery();
+//
+//				result=rs.next();
+//
+//			}catch(SQLException e) {
+//				System.out.println(e);
+//
+//			}finally {
+//				closeConnectionToSQL();
+//			}
+//		}
+//		return result;
+//	}
+////	Kiểm tra trùng tên
+//	public boolean hasNameRoom(String name) {
+//	    boolean result = false;
+//	    if (openConectionToSQL()) {
+//	        try {
+//
+//	            String sql = "SELECT * FROM phong WHERE TEN_PHG = ?";
+//
+//	            PreparedStatement stmt = con.prepareStatement(sql);
+//
+//	            stmt.setString(1, name);
+//
+//	            ResultSet rs = stmt.executeQuery();
+//
+//	            result = rs.next();
+//
+//	        } catch (SQLException e) {
+//	            System.out.println(e);
+//	        } finally {
+//	            closeConnectionToSQL();
+//	        }
+//	    }
+//	    return result;
+//	}
 
 //	Kiểm tra xóa phòng
 	public boolean deleteRoom(int idRoom) {
