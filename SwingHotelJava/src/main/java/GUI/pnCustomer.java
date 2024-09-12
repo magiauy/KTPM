@@ -7,14 +7,10 @@ import java.util.ArrayList;
 
 import java.awt.Color;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -22,15 +18,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JTextField;
-import javax.swing.RowFilter;
 import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.JRadioButton;
-import javax.swing.JButton;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 
 public class pnCustomer extends JPanel {
 
@@ -55,6 +45,8 @@ public class pnCustomer extends JPanel {
 
 	private JButton btnAdd, btnDelete, btnEdit, btnReset;
 
+	private JRadioButton rdbtstatus1, rdbtstatus2;
+	private String status;
 	customerBUS ctmBUS = new customerBUS();
 	checkInputBUS chkBUS = new checkInputBUS();
 
@@ -81,6 +73,7 @@ public class pnCustomer extends JPanel {
 
 	// Load giao diện
 	private void initComponents() {
+		ctmBUS.loaddata();
 		setBackground(new Color(255, 255, 255));
 		setBounds(222, 44, 1089, 590);
 		setLayout(null);
@@ -191,6 +184,29 @@ public class pnCustomer extends JPanel {
 		genderGroup.add(rdbtnNam);
 		genderGroup.add(rdbtnNu);
 
+		JLabel lblNewLabel_1_5 = new JLabel("Trạng thái");
+		lblNewLabel_1_5.setForeground(new Color(0, 0, 128));
+		lblNewLabel_1_5.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		lblNewLabel_1_5.setBounds(756, 310, 79, 33);
+		add(lblNewLabel_1_5);
+
+		rdbtstatus1 = new JRadioButton("Đang hoạt động");
+		rdbtstatus1.setFont(new Font("SansSerif", Font.PLAIN, 13));
+		rdbtstatus1.setBackground(new Color(255, 255, 255));
+		rdbtstatus1.setBounds(756, 340, 120, 21);
+		add(rdbtstatus1);
+
+		rdbtstatus2 = new JRadioButton("Ngừng hoạt động");
+		rdbtstatus2.setFont(new Font("SansSerif", Font.PLAIN, 13));
+		rdbtstatus2.setBackground(new Color(255, 255, 255));
+		rdbtstatus2.setBounds(880, 340, 150, 21);
+		add(rdbtstatus2);
+
+		ButtonGroup statusGroup = new ButtonGroup();
+		statusGroup.add(rdbtstatus1);
+		statusGroup.add(rdbtstatus2);
+
+
 		btnAdd = new JButton("Thêm");
 		btnAdd.setForeground(Color.WHITE);
 		btnAdd.setFont(new Font("SansSerif", Font.BOLD, 15));
@@ -288,7 +304,8 @@ public class pnCustomer extends JPanel {
 					ctm.getCustomer_gender(),
 					ctm.getCustomer_phone(),
 					ctm.getCustomer_email(),
-					ctm.getCustomer_cccd()
+					ctm.getCustomer_cccd(),
+					ctm.getCustomer_status()
 			});
 		}
 	}
@@ -309,6 +326,7 @@ public class pnCustomer extends JPanel {
 		modelCustomer.addColumn("Điện thoại");
 		modelCustomer.addColumn("Email");
 		modelCustomer.addColumn("CCCD");
+		modelCustomer.addColumn("Trạng thái");
 
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(26, 66, 1022, 243);
@@ -343,7 +361,13 @@ public class pnCustomer extends JPanel {
 			tfPhone.setText(modelCustomer.getValueAt(i, 3).toString());
 			tfEmail.setText(modelCustomer.getValueAt(i, 4).toString());
 			tfCCCD.setText(modelCustomer.getValueAt(i, 5).toString());
-
+			String statustmp = modelCustomer.getValueAt(i, 6).toString();
+			if ("HOẠT ĐỘNG".equals(statustmp)) {
+				rdbtstatus1.setSelected(true);
+				rdbtstatus2.setEnabled(false);
+			} else if ("NGỪNG HOẠT ĐỘNG".equals(statustmp)) {
+				rdbtstatus2.setSelected(true);
+			}
 		}
 	}
 
@@ -429,14 +453,15 @@ public class pnCustomer extends JPanel {
 		int i = table.getSelectedRow();
 		if (i >= 0) {
 			int customerId = (int) modelCustomer.getValueAt(i, 0);
-
+			customerDTO ctm = ctmBUS.getcustomerbyID(customerId);
+			ctm.setCustomer_status("NGỪNG HOẠT ĐỘNG");
 			String message = ctmBUS.deleteCustomer(customerId);
 
 			JOptionPane.showMessageDialog(this, message);
 
 			if (message.equals("Đã xóa khách hàng")) {
-				modelCustomer.removeRow(i);
-				arrCustomer.remove(i);
+				modelCustomer.setValueAt("NGỪNG HOẠT ĐỘNG", i, 6);
+				refeshtable();
 			}
 			btnResetActionPerformed(e);
 		} else {
@@ -472,6 +497,14 @@ public class pnCustomer extends JPanel {
 						JOptionPane.showMessageDialog(this, "Vui lòng chọn giới tính!");
 						return;
 					}
+					if (rdbtstatus1.isSelected()) {
+						status = "HOẠT ĐỘNG";
+					} else if (rdbtstatus2.isSelected()) {
+						status = "NGỪNG HOẠT ĐỘNG";
+					} else {
+						JOptionPane.showMessageDialog(this, "Vui lòng chọn trạng thái!");
+						return;
+					}
 
 					// Tạo đối tượng customerDTO mới với thông tin đã được chỉnh sửa
 					customerDTO ctm = new customerDTO();
@@ -483,6 +516,7 @@ public class pnCustomer extends JPanel {
 					ctm.setCustomer_phone(tfPhone.getText());
 					ctm.setCustomer_email(tfEmail.getText());
 					ctm.setCustomer_cccd(tfCCCD.getText());
+					ctm.setCustomer_status(status);
 
 					String message = ctmBUS.editCustomer(ctm);
 
@@ -496,6 +530,7 @@ public class pnCustomer extends JPanel {
 						modelCustomer.setValueAt(ctm.getCustomer_phone(), i, 3);
 						modelCustomer.setValueAt(ctm.getCustomer_email(), i, 4);
 						modelCustomer.setValueAt(ctm.getCustomer_cccd(), i, 5);
+						modelCustomer.setValueAt(ctm.getCustomer_status(), i, 6);
 					}
 				} else {
 					JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng để chỉnh sửa!");
@@ -524,6 +559,12 @@ public class pnCustomer extends JPanel {
 		tfEmail.setText("");
 		tfCCCD.setText("");
 
+	}
+
+	public void refeshtable(){
+		modelCustomer.setRowCount(0);
+		arrCustomer = ctmBUS.getAllCustomer();
+		showListCustomer();
 	}
 
 }

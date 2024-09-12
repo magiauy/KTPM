@@ -24,7 +24,7 @@ public class customerDAO extends connectToSQL {
 					ctm.setCustomer_phone(rs.getString("SDT_KH"));
 					ctm.setCustomer_email(rs.getString("EMAIL_KH"));
 					ctm.setCustomer_cccd(rs.getString("CCCD_KH"));
-					
+					ctm.setCustomer_status(rs.getString("TRANGTHAI_KH"));
 					
 					arrCustomer.add(ctm);//Thêm đối tượng ctm vào mảng arrCustomer
 				}
@@ -41,7 +41,7 @@ public class customerDAO extends connectToSQL {
 		boolean result= false;
 		if(openConectionToSQL()) {
 			try {
-				String sql="Insert into khachhang values(?,?,?,?,?,?)";
+				String sql="Insert into khachhang values(?,?,?,?,?,?,?)";
 				
 				PreparedStatement stmt=con.prepareStatement(sql);
 				stmt.setInt(1,ctm.getCustomer_id());
@@ -50,6 +50,7 @@ public class customerDAO extends connectToSQL {
 				stmt.setString(4,ctm.getCustomer_phone());
 				stmt.setString(5,ctm.getCustomer_email());
 				stmt.setString(6,ctm.getCustomer_cccd());
+				stmt.setString(7,ctm.getCustomer_status());
 				
 				if(stmt.executeUpdate()>=1) {
 					result= true;
@@ -67,11 +68,11 @@ public class customerDAO extends connectToSQL {
 	    boolean result = false;
 	    if(openConectionToSQL()) {
 	        try {
-	            String sql = "DELETE FROM khachhang WHERE ID_KH = ?";
+	            String sql = "UPDATE khachhang SET TRANGTHAI_KH = ? WHERE ID_KH = ?";
 	            
 	            PreparedStatement stmt = con.prepareStatement(sql);
-	            
-	            stmt.setInt(1, ctmId);
+	            stmt.setString(1,"NGỪNG HOẠT ĐỘNG");
+	            stmt.setInt(2, ctmId);
 	            
 	            if(stmt.executeUpdate() > 0) {
 	                result = true;
@@ -90,7 +91,7 @@ public class customerDAO extends connectToSQL {
 	    boolean result = false;
 	    if (openConectionToSQL()) {
 	        try {
-	            String sql = "UPDATE khachhang SET TEN_KH = ?, PHAI_KH = ?, SDT_KH = ?, EMAIL_KH = ?, CCCD_KH = ? WHERE ID_KH = ?";
+	            String sql = "UPDATE khachhang SET TEN_KH = ?, PHAI_KH = ?, SDT_KH = ?, EMAIL_KH = ?, CCCD_KH = ? , TRANGTHAI_KH = ? WHERE ID_KH = ?";
 	            
 	            PreparedStatement stmt = con.prepareStatement(sql);
 	            
@@ -99,8 +100,9 @@ public class customerDAO extends connectToSQL {
 	            stmt.setString(3, ctm.getCustomer_phone());
 	            stmt.setString(4, ctm.getCustomer_email());
 	            stmt.setString(5, ctm.getCustomer_cccd());
-	            stmt.setInt(6, ctm.getCustomer_id());
-	            
+				stmt.setString(6, ctm.getCustomer_status());
+	            stmt.setInt(7, ctm.getCustomer_id());
+
 	            if (stmt.executeUpdate() > 0) {
 	                result = true;
 	            }

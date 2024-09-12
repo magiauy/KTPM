@@ -7,6 +7,7 @@ public class customerDTO {
 	private String customer_phone;
 	private String customer_email;
 	private String customer_cccd;
+	private String customer_status;
 	public int getCustomer_id() {
 		return customer_id;
 	}
@@ -42,6 +43,12 @@ public class customerDTO {
 	}
 	public void setCustomer_name(String customer_name) {
 		this.customer_name = customer_name;
+	}
+	public String getCustomer_status() {
+		return customer_status;
+	}
+	public void setCustomer_status(String customer_status) {
+		this.customer_status = customer_status;
 	}
 	
 
