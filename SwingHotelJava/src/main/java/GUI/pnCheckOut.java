@@ -339,7 +339,7 @@ public class pnCheckOut extends JPanel {
 	    modelCheckout.addColumn("Trạng thái");
 		
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(20, 83, 522, 198);
+		scrollPane.setBounds(20, 83, 522, 500);
 		scrollPane.getViewport().setBackground(Color.white);
 		add(scrollPane);
 		
