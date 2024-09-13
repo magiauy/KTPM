@@ -6,6 +6,15 @@ public class detailServiceDTO {
 	private int id_dv;
 	private int soluong_dv;
 	private double tongtien_dv;
+	public detailServiceDTO() {
+
+	}
+	public detailServiceDTO(int id_pn, int id_dv, int soluong_dv, double tongtien_dv) {
+		this.id_pn = id_pn;
+		this.id_dv = id_dv;
+		this.soluong_dv = soluong_dv;
+		this.tongtien_dv = tongtien_dv;
+	}
 //	Get,set
 	public int getid_pn() {
 		return id_pn;

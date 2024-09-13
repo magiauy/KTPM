@@ -7,7 +7,13 @@ import java.util.ArrayList;
 
 public class serviceBUS {
     serviceDAO svDAO = new serviceDAO();
-
+    ArrayList<serviceDTO> arrService = new ArrayList<serviceDTO>();
+    public void loaddata() {
+    	arrService = svDAO.getAllService();
+    }
+    public ArrayList<serviceDTO> getArrService() {
+    	return arrService;
+    }
     // Lấy tất cả dich vu thêm vào mảng
     public ArrayList<serviceDTO> getAllService() {
         return svDAO.getAllService();
@@ -44,4 +50,21 @@ public class serviceBUS {
     public ArrayList<serviceDTO> gettAllServiceInBIll() {
     	return svDAO.gettAllServiceInBIll();
     }
+    public String getnamebyID(int id) {
+    	for (serviceDTO sv : arrService) {
+    		if(sv.getService_id()==id) {
+    			return sv.getService_name();
+    		}
+    	}
+        	return "";
+    }
+    public double getpricebyID(int id) {
+    	for (serviceDTO sv : arrService) {
+    		if(sv.getService_id()==id) {
+    			return sv.getService_price();
+    		}
+    	}
+        	return 0;
+    }
+
 }

@@ -1,241 +1,181 @@
 package GUI;
 
-import java.awt.EventQueue;
+import java.awt.*;
 
-import javax.swing.JFrame;
-import javax.swing.JTable;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
+import javax.swing.*;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-
-import java.awt.Font;
-import java.awt.Color;
-
-import javax.swing.DefaultCellEditor;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
+import javax.swing.table.DefaultTableModel;
 
 import java.util.ArrayList;
+
+import DTO.detailServiceDTO;
 import DTO.serviceDTO;
 import BUS.serviceBUS;
-public class frmService {
+import BUS.detailServiceBUS;
 
-	private JFrame frame;
+public class frmService extends JFrame{
+
 	private JTable table;
-	
-	private DefaultTableModel modelTableService = new DefaultTableModel() {
-	    @Override
-	    public Class<?> getColumnClass(int columnIndex) {
-	        switch (columnIndex) {
-	            case 0: return String.class;  // Tên dịch vụ
-	            case 1: return Double.class; // Giá dịch vụ
-	            case 2: return String.class; // Mô tả
-	            case 3: return Boolean.class; // Duyệt
-	            default: return Object.class;
-	        }
-	    }
-	    
-	    @Override
-	    public boolean isCellEditable(int row, int column) {
-	        // Chỉ cột "Duyệt" là có thể chỉnh sửa
-	        return column == 3;
-	    }
-	};
-	
-	private DefaultTableModel modelTableService1 = new DefaultTableModel();
-	private JButton btnAdd;
+	private JScrollPane scrollPane;
+
+	private JPanel mainpanel;
+	private JPanel panel;
+	private JPanel framepane;
+	private FlowLayout flowLayout;
+
+	private int id ;
+    private JButton btnXacNhan;
 	
 	private ArrayList<serviceDTO> arrService;
 
 	private serviceBUS serviceBUS= new serviceBUS();
 	private JTable table_1;
+	private DefaultTableModel modelTableService1 = new DefaultTableModel();
 	private JLabel lblNewLabel;
-	private JLabel lblNewLabel_3;
-	
+	private detailServiceBUS detailServiceBUS = new detailServiceBUS();
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					frmService window = new frmService();
-//					window.frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+
 
 //	Get frameService
-	public JFrame getFrameService() {
-		return frame;
-	}
 	/**
 	 * Create the application.
 	 */
-	public frmService() {
+	public frmService(int id) {
 		initialize();
-		tableChooseService();
+		this.id = id;
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.getContentPane().setBackground(new Color(255, 255, 255));
-		frame.setBounds(100, 100, 1071, 450);
-		
-		frame.getContentPane().setLayout(null);
-		
-		table = new JTable();
-		table.setBounds(23, 33, 996, 246);
-		frame.getContentPane().add(table);
-		
-		btnAdd = new JButton("Thêm");
-		btnAdd.setForeground(Color.WHITE);
-		btnAdd.setFont(new Font("SansSerif", Font.BOLD, 15));
-		btnAdd.setEnabled(true);
-		btnAdd.setBorderPainted(false);
-		btnAdd.setBackground(new Color(0, 206, 209));
-		btnAdd.setBounds(892, 343, 127, 46);
-		frame.getContentPane().add(btnAdd);
-		
+		serviceBUS.loaddata();
+		getContentPane().setBackground(new Color(255, 255, 255));
+		setBounds(100, 100, 660, 600);
+		ArrayList<serviceDTO> arrService = serviceBUS.getArrService();
+		framepane = new JPanel();
+		framepane.setLayout(new BoxLayout(framepane, BoxLayout.Y_AXIS));
 
+		flowLayout = new FlowLayout(FlowLayout.LEFT, 10, 10);
+		scrollPane = new JScrollPane();
+		scrollPane.setPreferredSize(new Dimension(640, 250));
+		scrollPane.setMaximumSize(new Dimension(640, 250));
+		mainpanel = new JPanel();
+		mainpanel.setPreferredSize(new Dimension(620, -1));
+		mainpanel.setLayout(flowLayout);
+		scrollPane.setViewportView(mainpanel);
+		framepane.add(scrollPane);
+
+		JPanel[] panel = new JPanel[arrService.size()];
+		JPanel[] panel_1 = new JPanel[arrService.size()];
+		JPanel[] panel_2 = new JPanel[arrService.size()];
+		JPanel[] panel_3 = new JPanel[arrService.size()];
+		JLabel[] lblServiceID = new JLabel[arrService.size()];
+		JLabel[] lblServiceName = new JLabel[arrService.size()];
+		JLabel[] lblServicePrice = new JLabel[arrService.size()];
+		JLabel[] lblServiceDescribe = new JLabel[arrService.size()];
+		JSpinner[] lblServiceAmount = new JSpinner[arrService.size()];
+		JLabel[] lblDes = new JLabel[arrService.size()];
+		for (int i=0;i<arrService.size();i++) {
+			panel[i] = new JPanel();
+			panel[i].setLayout(new BoxLayout(panel[i], BoxLayout.Y_AXIS));
+			panel[i].setPreferredSize(new Dimension(200, 100));
+			panel_1[i] = new JPanel();
+			panel_1[i].setLayout(new FlowLayout());
+			panel_2[i] = new JPanel();
+			panel_2[i].setLayout(new GridLayout(2,1));
+			panel_2[i].setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0)); // top, left, bottom, right
+			panel_3[i] = new JPanel();
+
+			lblDes[i] = new JLabel("Mô tả: ");
+			panel[i].setLayout(new GridLayout(3,1));
+			panel[i].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			lblServiceID[i] = new JLabel("ID: " + arrService.get(i).getService_id());
+//			lblServiceID[i].setBounds(10, 10, 100, 20);
+			lblServiceName[i] = new JLabel("Tên DV: " + arrService.get(i).getService_name());
+//			lblServiceName[i].setBounds(30, 10, 100, 20);
+			lblServicePrice[i] = new JLabel("Giá: " + arrService.get(i).getService_price() + " $");
+//			lblServicePrice[i].setBounds(30, 30, 100, 20);
+			lblServiceDescribe[i] = new JLabel(arrService.get(i).getService_description());
+			lblServiceDescribe[i].setBounds(50, 70, 100, 20);
+			lblServiceAmount[i] = new JSpinner();
+			lblServiceAmount[i].setPreferredSize(new Dimension(50, 20));
+			panel_1[i].add(lblServiceID[i]);
+			panel_1[i].add(lblServiceName[i]);
+			panel_2[i].add(lblDes[i]);
+			panel_2[i].add(lblServiceDescribe[i]);
+			panel_3[i].add(lblServicePrice[i]);
+			panel_3[i].add(lblServiceAmount[i]);
+			panel[i].add(panel_1[i]);
+			panel[i].add(panel_2[i]);
+			panel[i].add(panel_3[i]);
+			int finalI = i;
+			lblServiceAmount[i].addChangeListener(e -> {
+				if ((int) lblServiceAmount[finalI].getValue() >= 0){
+					int amount = (int) lblServiceAmount[finalI].getValue();
+					double price = (int) serviceBUS.getpricebyID(arrService.get(finalI).getService_id());
+					System.out.println(price);
+					double total = amount * price;
+					if (detailServiceBUS.checkAvailableService(arrService.get(finalI).getService_id())) {
+						detailServiceBUS.edittemp(arrService.get(finalI).getService_id(), amount, total);
+					} else {
+						detailServiceBUS.addtemp(new detailServiceDTO(id, arrService.get(finalI).getService_id(), amount, total));
+					}
+					if (amount== 0) {
+						if(detailServiceBUS.checkAvailableService(arrService.get(finalI).getService_id()))	{
+							detailServiceBUS.deletetempDetailService(arrService.get(finalI).getService_id());
+						}
+					}
+					showtableDetailService(detailServiceBUS.getArrDetailService());
+				}else{
+					lblServiceAmount[finalI].setValue(0);
+				}
+				});
+
+			mainpanel.add(panel[i]);
+		}
+		lblNewLabel = new JLabel("Dịch vụ đã chọn");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		framepane.add(lblNewLabel);
+
+		showTableService();
+		btnXacNhan = new JButton("Xác nhận");
+		framepane.add(btnXacNhan);
+		btnXacNhan.setAlignmentX(Component.CENTER_ALIGNMENT);
+		add(framepane);
+		btnXacNhan.addActionListener(e -> {
+			btnXacNhanActionPerformed(e);
+		});
+	}
+	private void showTableService() {
 		table_1 = new JTable();
-		table_1.setBounds(21, 229, 395, 174);
-		frame.getContentPane().add(table_1);
-		
 		table_1.setModel(modelTableService1);
-		
+		table_1.setPreferredSize(new Dimension(640, 250));
 		modelTableService1.addColumn("ID DV");
 		modelTableService1.addColumn("Tên dịch vụ");
 		modelTableService1.addColumn("Số lượng");
-		modelTableService1.addColumn("Tổng tiền");
-		
-		JScrollPane scrollPane1= new JScrollPane(table_1);
-		scrollPane1.setBounds(23, 215, 527, 174);
-		scrollPane1.getViewport().setBackground(Color.white);
-		frame.getContentPane().add(scrollPane1);
-		
-		table_1.getModel().addTableModelListener(new TableModelListener() {
-		    @Override
-		    public void tableChanged(TableModelEvent e) {
-		        int row = e.getFirstRow();
-		        int column = e.getColumn();
-		        if (column == 2) { // Chỉ xử lý khi cột số lượng thay đổi
-		            String quantityStr = (String) table_1.getValueAt(row, column);
-		            try {
-		                int quantity = Integer.parseInt(quantityStr);
-		                double price = (double) table_1.getValueAt(row, 3); // Lấy giá dịch vụ từ cột 3
-		                double totalPrice = quantity * price; // Tính tổng tiền
+		modelTableService1.addColumn("Tổng tiền(USD)");
 
-		                // Cập nhật giá trị tổng tiền trong cùng một hàng
-		                table_1.setValueAt(totalPrice, row, 3);
-		            } catch (NumberFormatException ex) {
-		                // Xử lý ngoại lệ nếu không thể chuyển đổi thành số nguyên
-		                // Ví dụ: hiển thị thông báo hoặc thực hiện hành động khác tùy thuộc vào yêu cầu của bạn
-		                ex.printStackTrace();
-		            }
-		        }
-		    }
-		});
-
-		
-		frame.setLocationRelativeTo(null);
+		JScrollPane scrollPane = new JScrollPane(table_1);
+		scrollPane.setPreferredSize(new Dimension(640, 300));
+		panel = new JPanel();
+		panel.setBounds(10, 280, 660, 310);
+		panel.setPreferredSize(new Dimension(640, 310));
+		panel.setMaximumSize(new Dimension(640, 310));
+		panel.add(scrollPane);
+		framepane.add(panel);
 	}
-//	Tạo bảng chọn dịch vụ
-	private void tableChooseService() {
-		table.setModel(modelTableService);
-		
-		modelTableService.addColumn("Tên dịch vụ");
-		modelTableService.addColumn("Giá dịch vụ");
-		modelTableService.addColumn("Mô tả");
-		modelTableService.addColumn("Duyệt");
-		
-		JScrollPane scrollPane= new JScrollPane(table);
-		scrollPane.setBounds(23, 33, 971, 156);
-		scrollPane.getViewport().setBackground(Color.white);
-		frame.getContentPane().add(scrollPane);
-		
-		lblNewLabel = new JLabel("Tổng tiền dịch vụ:");
-		lblNewLabel.setForeground(new Color(0, 0, 128));
-		lblNewLabel.setFont(new Font("SansSerif", Font.PLAIN, 15));
-		lblNewLabel.setBounds(560, 356, 118, 33);
-		frame.getContentPane().add(lblNewLabel);
-		
-		lblNewLabel_3 = new JLabel("0");
-		lblNewLabel_3.setForeground(new Color(0, 0, 128));
-		lblNewLabel_3.setFont(new Font("SansSerif", Font.PLAIN, 15));
-		lblNewLabel_3.setBounds(684, 356, 103, 33);
-		frame.getContentPane().add(lblNewLabel_3);
-		
-		arrService=serviceBUS.getAllService();
-		
-		updateTableService();
-		
-		 // Đặt cell editor cho cột duyệt
-	    TableColumn duyetColumn = table.getColumn("Duyệt");
-	    duyetColumn.setCellEditor(new DefaultCellEditor(new JCheckBox()));
-		
-	    modelTableService.addTableModelListener(new TableModelListener() {
-	        @Override
-	        public void tableChanged(TableModelEvent e) {
-	            int row = e.getFirstRow();
-	            int column = e.getColumn();
-	            if (column == 3 && row != -1) { 
-	                Boolean checked = (Boolean) modelTableService.getValueAt(row, column);
-	                if (checked) {
-	                    addServiceToSecondTable(row);
-	                } else {
-	                    removeServiceFromSecondTable(row);
-	                }
-	            }
-	        }
-	    });
-	}
-//	UPdate table load dữ liệu dịch vụ
-	private void updateTableService() {
-		modelTableService.setRowCount(0);
-		for(serviceDTO service : arrService) {
-			modelTableService.addRow(new Object[] {
-					service.getService_name(),
-					service.getService_price(),
-					service.getService_description(),
-					false
-			});
+	public void showtableDetailService(ArrayList<detailServiceDTO> arrDetailService) {
+		modelTableService1.setRowCount(0);
+		for (detailServiceDTO detailServiceDTO : arrDetailService) {
+			modelTableService1.addRow(new Object[] {detailServiceDTO.getId_dv(), serviceBUS.getnamebyID(detailServiceDTO.getId_dv()), detailServiceDTO.getSoluong_dv(), detailServiceDTO.getTongtien_dv()});
 		}
 	}
-//	Inner xuống bảng con
-	private void addServiceToSecondTable(int row) {
-		serviceDTO selectedService = arrService.get(row);
-		
-	    String serviceName = selectedService.getService_name();
-	    Double servicePrice = selectedService.getService_price();
-
-	    modelTableService1.addRow(new Object[] { 
-	    		selectedService.getService_id(),
-	    		serviceName, 1, 
-	    		servicePrice 
-	    	});
-	}
-	
-//	Bỏ checkbox thì xóa khỏi bảng con
-	private void removeServiceFromSecondTable(int row) {
-	    String serviceName = (String) modelTableService.getValueAt(row, 0);
-
-	    // Find the row with this service name and remove it
-	    for (int i = 0; i < modelTableService1.getRowCount(); i++) {
-	        if (modelTableService1.getValueAt(i, 1).equals(serviceName)) {
-	            modelTableService1.removeRow(i);
-	            break;
-	        }
-	    }
+	public void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {
+		detailServiceBUS.checkdup();
+		detailServiceBUS.adddatabase();
+		JOptionPane.showMessageDialog(null, "Đã thêm dịch vụ thành công");
+		this.dispose();
 	}
 }

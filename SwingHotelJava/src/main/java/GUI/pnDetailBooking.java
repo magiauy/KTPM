@@ -1,16 +1,13 @@
 package GUI;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 
 import java.awt.Color;
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.ScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -18,9 +15,6 @@ import javax.swing.table.TableRowSorter;
 import DTO.detailBookingDTO;
 import DTO.roomDTO;
 
-import javax.swing.JTextField;
-import javax.swing.RowFilter;
-import javax.swing.SwingUtilities;
 import javax.swing.RowFilter.Entry;
 import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
@@ -31,6 +25,7 @@ import java.util.Arrays;
 
 import DTO.detailBookingDTO;
 import BUS.deltailBookingBUS;
+import BUS.detailServiceBUS;
 import BUS.roomBUS;
 
 public class pnDetailBooking extends JPanel {
@@ -49,9 +44,11 @@ public class pnDetailBooking extends JPanel {
 	private ArrayList<detailBookingDTO> arrDetailBooking;
 	
 	private deltailBookingBUS detailBookingBUS= new deltailBookingBUS();
+	private detailServiceBUS detailServiceBUS = new detailServiceBUS();
 	private JTextField tfFind;
 	private JScrollPane scrollPane ;
 
+	private JButton btnService;
 	/**
 	 * Create the panel.
 	 */
@@ -152,7 +149,13 @@ public class pnDetailBooking extends JPanel {
 	    tfFind.setBorder(new LineBorder(Color.lightGray,1));
 	    tfFind.setBounds(89, 69, 474, 33);
 	    add(tfFind);
-	    
+
+		btnService = new JButton("Dịch vụ");
+		btnService.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		btnService.setBounds(874, 131, 186, 33);
+		add(btnService);
+		btnService.setVisible(false);
+
 		tfFind.getDocument().addDocumentListener(new DocumentListener() {
 			public void insertUpdate(DocumentEvent e) {
 				findDetailBooking();
@@ -166,7 +169,11 @@ public class pnDetailBooking extends JPanel {
 				findDetailBooking();
 			}
 		});
-	    
+
+		btnService.addActionListener(e -> {
+			SericePerformed(e);
+
+		});
 	    JLabel lblNewLabel_111 = new JLabel("Tìm kiếm");
 	    lblNewLabel_111.setFont(new Font("SansSerif", Font.PLAIN, 15));
 	    lblNewLabel_111.setBounds(10, 69, 123, 33);
@@ -174,6 +181,13 @@ public class pnDetailBooking extends JPanel {
 		
 		
 		
+	}
+	public void SericePerformed(java.awt.event.ActionEvent e) {
+		if (e.getSource() == btnService) {
+			int id = Integer.parseInt(tfID_Booking.getText());
+			frmService frm = new frmService(id);
+			frm.setVisible(true);
+		}
 	}
 	// Update Table DetailBooking
 	private void updateTableDetailBooking() {
@@ -200,7 +214,7 @@ public class pnDetailBooking extends JPanel {
 	    	 int id = dt.getDetail_booking_id_step2();
 	    	 String room_name = dt.getDetail_booking_room_name();
 	    	 String cus_name = dt.getDetail_booking_customer_name();
-	    	 double sum_fee = dt.getSum_fee_step2();
+	    	 double sum_fee = dt.getSum_fee_step2()+detailServiceBUS.calculateTotal(id);
 	    	 String status = dt.getDetail_booking_status();
 	    	 
 	    	 Object[] row = {id, room_name, cus_name, sum_fee, status};
@@ -305,6 +319,7 @@ public class pnDetailBooking extends JPanel {
 	        tfName_Room.setEnabled(false);
 	        tfSum_fee.setEnabled(false);
 	        tfStatus.setEnabled(false);
+            btnService.setVisible(selectedDetailBooking.getDetail_booking_status().equals("Chưa checkout"));
 	    }
 	}
 }

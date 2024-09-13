@@ -65,6 +65,7 @@ public class pnCheckOut extends JPanel {
 	private JTextField tfID;
 	private JTextField tfName_Room;
 	private JTextField tfSumm_fee;
+	private JTextField tfroom_fee;
 	
 	private JDateChooser dcEnd, dcStart, dcBill;
 	
@@ -118,12 +119,12 @@ public class pnCheckOut extends JPanel {
 		initComponent();
 		table();
 		autoSetID() ;
-		showTableService();
-		
+
 		
 	}
 //	Giao diện
 	private void initComponent() {
+		serviceBUS.loaddata();
 		setBackground(new Color(255, 255, 255));
 		setBounds(222, 44, 1089, 590);
 		setLayout(null);
@@ -194,7 +195,17 @@ public class pnCheckOut extends JPanel {
 		lblNgyInHa.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		lblNgyInHa.setBounds(559, 451, 111, 25);
 		add(lblNgyInHa);
-		
+		JLabel lbltienphong = new JLabel("Tiền phòng");
+		lbltienphong.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		lbltienphong.setBounds(559, 490, 111, 25);
+		add(lbltienphong);
+
+		tfroom_fee = new JTextField();
+		tfroom_fee.setColumns(10);
+		tfroom_fee.setBorder(new LineBorder(Color.lightGray, 1));
+		tfroom_fee.setBounds(645, 490, 164, 33);
+		add(tfroom_fee);
+
 		JLabel lblTnPhng = new JLabel("Tên phòng");
 		lblTnPhng.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		lblTnPhng.setBounds(686, 303, 111, 25);
@@ -266,8 +277,7 @@ public class pnCheckOut extends JPanel {
 		table_1.getModel().addTableModelListener(new TableModelListener() {
 		    @Override
 		    public void tableChanged(TableModelEvent e) {
-		        eventEditQuantityService(e);
-		        
+
 		    }
 		  });
 		
@@ -283,12 +293,6 @@ public class pnCheckOut extends JPanel {
 		lblDchV.setBounds(559, 83, 111, 25);
 		add(lblDchV);
 
-
-		lblBngDchV = new JLabel("Bảng dịch vụ");
-		lblBngDchV.setForeground(new Color(0, 0, 128));
-		lblBngDchV.setFont(new Font("SansSerif", Font.BOLD, 20));
-		lblBngDchV.setBounds(225, 312, 206, 25);
-		add(lblBngDchV);
 		
 		btnCheckout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -299,13 +303,15 @@ public class pnCheckOut extends JPanel {
 	}
 //	Update bảng
 	private void updateTableDetailBookingCheckout() {
+
 		modelCheckout.setRowCount(0);
 		for(detailBookingDTO detailBookingCheckout:arrDetailBookingNotCheckout) {
+			double fee = detailBookingCheckout.getSum_fee_step2() + dlServiceBUS.calculateTotal(detailBookingCheckout.getDetail_booking_id_step2());
 			modelCheckout.addRow(new Object[] {
 					detailBookingCheckout.getDetail_booking_id_step2(),
 		            detailBookingCheckout.getDetail_booking_room_name(),
 		            detailBookingCheckout.getDetail_booking_customer_name(),
-		            detailBookingCheckout.getSum_fee_step2(),
+		            fee,
 		            detailBookingCheckout.getDetail_booking_status()
 			});
 		}
@@ -375,74 +381,76 @@ public class pnCheckOut extends JPanel {
 		    
 
 //		    Phần tổng tiền cần gọi lại hàm
-		   caculFee();
-		    
+
 		    tfName_Customer.setEnabled(false);
 			tfName_Room.setEnabled(false);
-			
-			
+			tfroom_fee.setText(String.valueOf(selectedDetaiBooking.getSum_fee_step2()));
+			tfroom_fee.setEnabled(false);
+			tfSumm_fee.setText(String.valueOf(selectedDetaiBooking.getSum_fee_step2()+dlServiceBUS.calculateTotal(selectedDetaiBooking.getDetail_booking_id_step2())));
 		    dcStart.setEnabled(false);
 		    dcBill.setEnabled(false);
-
+			tfSumm_fee.setEnabled(false);
 			dcBill.setDate(new java.util.Date());
+			loadservicetable(selectedDetaiBooking.getDetail_booking_id_step2());
 		}
 	}
-
-//	update table dịch vụ
-	private void updateTableService() {
-		modelTableService.setRowCount(0);
-		for(serviceDTO service : arrService) {
-			modelTableService.addRow(new Object[] {
-					service.getService_name(),
-					service.getService_price(),
-					service.getService_description(),
-					false
+	public void loadservicetable(int id){
+		modelTableService1.setRowCount(0);
+		ArrayList<detailServiceDTO> arrDetailService = dlServiceBUS.getDetailServiceByID_PD(id);
+		for (detailServiceDTO detailService : arrDetailService) {
+			modelTableService1.addRow(new Object[] {
+					detailService.getId_dv(),
+					serviceBUS.getnamebyID(detailService.getId_dv()),
+					detailService.getSoluong_dv(),
+					detailService.getTongtien_dv()
 			});
 		}
-	}
-//	show table dịch vụ
-	private void showTableService() {
-	tableService= new JTable();	
-	tableService.setModel(modelTableService);
-	
-	modelTableService.addColumn("Tên dịch vụ");
-	modelTableService.addColumn("Giá dịch vụ");
-	modelTableService.addColumn("Mô tả");
-	modelTableService.addColumn("Duyệt");
-	
-	JScrollPane scrollPane= new JScrollPane(tableService);
-	scrollPane.setBounds(20, 381, 522, 179);
-	scrollPane.getViewport().setBackground(Color.white);
-	add(scrollPane);
-	
-	
-	arrService=serviceBUS.getAllService();
-	
-	updateTableService();
-	
-	 // Đặt cell editor cho cột duyệt
-    TableColumn duyetColumn = tableService.getColumn("Duyệt");
-    duyetColumn.setCellEditor(new DefaultCellEditor(new JCheckBox()));
-	
-    modelTableService.addTableModelListener(new TableModelListener() {
-        @Override
-        public void tableChanged(TableModelEvent e) {
-            int row = e.getFirstRow();
-            int column = e.getColumn();
-            if (column == 3 && row != -1) { 
-                Boolean checked = (Boolean) modelTableService.getValueAt(row, column);
-                if (checked) {
-                    addServiceToSecondTable(row);
-                    caculFee();
-                } else {
-                    removeServiceFromSecondTable(row);
-                    caculFee();
-                }
-            }
-        	}
-    	});
 
 	}
+
+//	show table dịch vụ
+//	private void showTableService() {
+//	tableService= new JTable();
+//	tableService.setModel(modelTableService);
+//
+//	modelTableService.addColumn("Tên dịch vụ");
+//	modelTableService.addColumn("Giá dịch vụ");
+//	modelTableService.addColumn("Mô tả");
+//	modelTableService.addColumn("Duyệt");
+//
+//	JScrollPane scrollPane= new JScrollPane(tableService);
+//	scrollPane.setBounds(20, 381, 522, 179);
+//	scrollPane.getViewport().setBackground(Color.white);
+//	add(scrollPane);
+//
+//
+//	arrService=serviceBUS.getAllService();
+//
+//	updateTableService();
+//
+//	 // Đặt cell editor cho cột duyệt
+//    TableColumn duyetColumn = tableService.getColumn("Duyệt");
+//    duyetColumn.setCellEditor(new DefaultCellEditor(new JCheckBox()));
+//
+//    modelTableService.addTableModelListener(new TableModelListener() {
+//        @Override
+//        public void tableChanged(TableModelEvent e) {
+//            int row = e.getFirstRow();
+//            int column = e.getColumn();
+//            if (column == 3 && row != -1) {
+//                Boolean checked = (Boolean) modelTableService.getValueAt(row, column);
+//                if (checked) {
+//                    addServiceToSecondTable(row);
+//                    caculFee();
+//                } else {
+//                    removeServiceFromSecondTable(row);
+//                    caculFee();
+//                }
+//            }
+//        	}
+//    	});
+//
+//	}
 //	Tìm kiếm Phòng cần trả
 	private void findCheckOut() {
 		String keyword = tfFind.getText().trim().toLowerCase();
@@ -466,80 +474,11 @@ public class pnCheckOut extends JPanel {
 		}
 	}
 	
-//	Chọn checkbox thêm vào bảng dịch vụ đã chọn
-	private void addServiceToSecondTable(int row) {
-		serviceDTO selectedService = arrService.get(row);
-		
-	    String serviceName = selectedService.getService_name();
-	    Double servicePrice = selectedService.getService_price();
 
-	    modelTableService1.addRow(new Object[] { 
-	    		selectedService.getService_id(),
-	    		serviceName, 1, 
-	    		servicePrice 
-	    	});
-	}
 	
-//	Bỏ checkbox thì xóa khỏi bảng dịch vụ đã chọn
-	private void removeServiceFromSecondTable(int row) {
-	    String serviceName = (String) modelTableService.getValueAt(row, 0);
 
-	    // Find the row with this service name and remove it
-	    for (int i = 0; i < modelTableService1.getRowCount(); i++) {
-	        if (modelTableService1.getValueAt(i, 1).equals(serviceName)) {
-	            modelTableService1.removeRow(i);
-	            break;
-	        }
-	    }
-	}
-//	Sự kiện thay đổi số lượng dịch vụ + Tổng tiền mỗi dịch vụ
-	private void eventEditQuantityService(TableModelEvent e) {
-		int row = e.getFirstRow();
-        int column = e.getColumn();
-        
-        if (column == 2) { // Chỉ xử lý khi cột số lượng thay đổi
-            String quantityStr = (String) table_1.getValueAt(row, column);
-            try {
-                int quantity = Integer.parseInt(quantityStr);
-                double price = (double) tableService.getValueAt(row, 1); 
-                double totalPrice = quantity * price; 
 
-              
-                table_1.setValueAt(totalPrice, row, 3);
-                
-                
-                
-            } catch (NumberFormatException ex) {
-                ex.printStackTrace();
-            }
-        }
-        caculFee();
-     
-    }
-//	Hàm tính tổng tiền phải thanh toán
-	public void caculFee() {
-		double feeBooking=0;
-		double feeService=0;
-		
-		int i=table.getSelectedRow(); //Bảng chi tiết dịch vụ
-		if(i>=0) {
-			detailBookingDTO selectedDetaiBooking = arrDetailBookingNotCheckout.get(i);
-			
-			feeBooking=selectedDetaiBooking.getSum_fee_step2();
-		}
-		
-//		Bảng dịch vụ đã chọn
-		DefaultTableModel model = (DefaultTableModel) table_1.getModel();
-		double tongTien = 0;
-		for (int j = 0; j < model.getRowCount(); j++) {
-	        double totalPrice = (double) model.getValueAt(j, 3);
-	        tongTien += totalPrice;
-	    }
-		feeService = tongTien;
-		
-		
-		tfSumm_fee.setText(String.valueOf(feeBooking+feeService));
-	}
+
 //	Sự kiện nút thanh toán và trả phòng
 	public void btnAddBillActionPerformed(ActionEvent e) {
 	    try {
@@ -621,8 +560,8 @@ public class pnCheckOut extends JPanel {
 	        dcBill.setDate(null);
 	        dcStart.setDate(null);
 	        dcEnd.setDate(null);
+			tfroom_fee.setText("");
 	        modelTableService1.setRowCount(0);
-	        updateTableService();
 	}
 
 	
