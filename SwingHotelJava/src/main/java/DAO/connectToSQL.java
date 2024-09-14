@@ -13,9 +13,9 @@ public class connectToSQL {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			
-			String url="jdbc:mysql://localhost:3306/ktpm";
+			String url="jdbc:mysql://27.71.68.82:3306/ktpm";
 			String username="root";
-			String password="";
+			String password="Magiauy2004*";
 			
 			con=DriverManager.getConnection(url,username,password);
 		
