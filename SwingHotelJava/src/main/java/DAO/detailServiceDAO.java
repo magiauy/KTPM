@@ -38,7 +38,7 @@ public class detailServiceDAO extends connectToSQL{
 		ArrayList<detailServiceDTO> arrDetailService = new ArrayList<detailServiceDTO>();
 		if (openConectionToSQL()) {
 			try {
-				String sql = "Select * from chitietdichvu where ID_PD=?";
+				String sql = "Select * from chitietdichvu where ID_PHIEUDAT=?";
 
 				PreparedStatement stmt = con.prepareStatement(sql);
 				stmt.setInt(1, id);
@@ -47,7 +47,7 @@ public class detailServiceDAO extends connectToSQL{
 				while (rs.next()) {
 					detailServiceDTO dlService = new detailServiceDTO();
 
-					dlService.setid_pn(rs.getInt("ID_PD"));
+					dlService.setid_pn(rs.getInt("ID_PHIEUDAT"));
 					dlService.setId_dv(rs.getInt("ID_DV"));
 					dlService.setSoluong_dv(rs.getInt("SOLUONG_DV"));
 					dlService.setTongtien_dv(rs.getDouble("TONGTIEN_DV"));
@@ -73,7 +73,7 @@ public class detailServiceDAO extends connectToSQL{
 				while(rs.next()) {
 					detailServiceDTO dlService= new detailServiceDTO();
 
-					dlService.setid_pn(rs.getInt("ID_PD"));
+					dlService.setid_pn(rs.getInt("ID_PHIEUDAT"));
 					dlService.setId_dv(rs.getInt("ID_DV"));
 					dlService.setSoluong_dv(rs.getInt("SOLUONG_DV"));
 					dlService.setTongtien_dv(rs.getDouble("TONGTIEN_DV"));
@@ -96,7 +96,7 @@ public class detailServiceDAO extends connectToSQL{
 		boolean result= false;
 		if(openConectionToSQL()) {
 			try {
-				String sql="Update chitietdichvu set SOLUONG_DV=?, TONGTIEN_DV=? where ID_PD=? and ID_DV=?";
+				String sql="Update chitietdichvu set SOLUONG_DV=?, TONGTIEN_DV=? where ID_PHIEUDAT=? and ID_DV=?";
 
 				PreparedStatement stmt=con.prepareStatement(sql);
 

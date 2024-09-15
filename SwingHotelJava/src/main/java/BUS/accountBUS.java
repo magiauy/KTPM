@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import DAO.accountDAO;
 
 public class accountBUS {
-	private accountDAO accountDAO= new accountDAO();
+	private static accountDAO accountDAO= new accountDAO();
 //	Lấy danh sách tài khoản trả về mảng
 	public ArrayList<accountDTO> getAllAccount(){
 		return accountDAO.getAllAccount();
@@ -39,7 +39,12 @@ public class accountBUS {
 	}
 //	KIểm tra Input username không có khoảng trắng
 //	Kiểm tra Input password phải >6
-	
+	public static boolean checkAndCreateDatabase() {
+		return accountDAO.openforcheck();
+	}
+	public static void maxConnection(){
+		accountDAO.setMaxConnection();
+	}
 
 	
 

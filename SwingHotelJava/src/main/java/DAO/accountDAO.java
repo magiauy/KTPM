@@ -192,8 +192,6 @@ public class accountDAO extends connectToSQL{
 	    return account;
 	}
 
-//	Thêm kiểm tra username không được trùng
-
 	
 
 }

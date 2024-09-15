@@ -472,6 +472,27 @@ public class pnStaff extends JPanel {
 				rdbtnInactive.setEnabled(true);
 			}
 		}
+		if (frmLogin.account.getAccount_id_nv() == Integer.parseInt(tfID.getText())) {
+			rdbtnStaff.setEnabled(false);
+			rdbtnAdmin.setEnabled(false);
+		}else {
+			rdbtnStaff.setEnabled(true);
+			rdbtnAdmin.setEnabled(true);
+		}
+		checkadmin((int)modelStaff.getValueAt(i, 0));
+
+	}
+		public void checkadmin(int id){
+		System.out.println(id==11);
+		if(id == 11){
+
+			btnDelete.setEnabled(false);
+			btnEdit.setEnabled(false);
+		}else {
+			btnDelete.setEnabled(true);
+			btnEdit.setEnabled(true);
+		}
+
 	}
 
 	// setID_auto

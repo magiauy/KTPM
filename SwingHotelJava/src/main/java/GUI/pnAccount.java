@@ -84,6 +84,7 @@ public class pnAccount extends JPanel {
 
 	// Giao diện
 	private void initComponent() {
+		staffBUS.loaddata();
 		setBounds(222, 44, 1089, 590);
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
@@ -294,7 +295,29 @@ public class pnAccount extends JPanel {
 			tfUsername.setText(modelAccount.getValueAt(i, 2).toString());
 			pfPassword.setText(modelAccount.getValueAt(i, 3).toString());
 			pfConfirmPassword.setText(modelAccount.getValueAt(i, 3).toString());
+			checkstatus((int)modelAccount.getValueAt(i, 1));
+			checkadmin((int)modelAccount.getValueAt(i, 1));
 		}
+
+	}
+	public void checkstatus(int id){
+		System.out.println(staffBUS.checkstatus(id));
+		if(!staffBUS.checkstatus(id)){
+
+			btnDelete.setEnabled(false);
+
+		}else{
+			btnDelete.setEnabled(true);
+		}
+	}
+	public void checkadmin(int id){
+		if(id==11){
+			btnDelete.setEnabled(false);
+			btnEdit.setEnabled(false);
+		}else {
+			btnDelete.setEnabled(true);
+			btnEdit.setEnabled(true);
+	}
 	}
 
 	// Thêm các lựa chọn cho combobox IDNV

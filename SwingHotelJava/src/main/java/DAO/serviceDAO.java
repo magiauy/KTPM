@@ -120,7 +120,7 @@ public class serviceDAO extends connectToSQL{
     			String sql="SELECT dv.*, ctdv.*, pd.ID_PHIEUDAT , hd.ID_HD " +
                         "FROM dichvu dv " +
                         "JOIN chitietdichvu ctdv ON dv.ID_DV = ctdv.ID_DV " +
-                        "JOIN phieudatphong pd ON ctdv.ID_PD = pd.ID_PHIEUDAT "+
+                        "JOIN phieudatphong pd ON ctdv.ID_PHIEUDAT = pd.ID_PHIEUDAT "+
                         "JOIN hoadon hd ON pd.ID_PHIEUDAT = hd.ID_PHIEUDAT";
     			Statement stmt=con.createStatement();
     			

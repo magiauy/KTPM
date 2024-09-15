@@ -1,10 +1,8 @@
 package DAO;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.*;
+import java.sql.*;
+
 
 public class connectToSQL {
 	protected Connection con;
@@ -13,12 +11,12 @@ public class connectToSQL {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			
-			String url="jdbc:mysql://27.71.68.82:3306/ktpm";
+			String url="jdbc:mysql://localhost:3306/swinghotel";
 			String username="root";
-			String password="Magiauy2004*";
+			String password="";
 			
 			con=DriverManager.getConnection(url,username,password);
-		
+
 			return true;
 		}catch(Exception e) {
 			System.out.println(e);
@@ -26,6 +24,25 @@ public class connectToSQL {
 		}
 		
 	}
+public boolean openforcheck() {
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        String url = "jdbc:mysql://localhost:3306";
+        String username = "root";
+        String password = "";
+        con = DriverManager.getConnection(url, username, password);
+
+        if (checkAndCreateDatabase()){
+            return true;
+        }
+    } catch(Exception e) {
+                e.printStackTrace();
+        System.out.println("Failed to establish a connection to the database: " + e.getMessage());
+        return false;
+    }
+    return false;
+}
 //	Đóng kết nối
 	public void closeConnectionToSQL() {
 		try {
@@ -46,4 +63,85 @@ public class connectToSQL {
 		return con.prepareStatement(sql);
 	}
 
+public void loadSQLFile(String filePath) {
+    try {
+        // Create a Statement
+        Statement stmt = con.createStatement();
+
+        // Read the SQL script
+        InputStream is = getClass().getResourceAsStream(filePath);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+        // Use ";" as a delimiter for each request
+        String line = "";
+        StringBuilder sb = new StringBuilder();
+        while((line = reader.readLine()) != null) {
+            // Ignore SQL comments
+            if(line.startsWith("--") || line.startsWith("//") || line.startsWith("/*")) {
+                continue;
+            }
+            sb.append(line);
+            // If the line ends with a ";", execute it
+            if(line.endsWith(";")) {
+                stmt.execute(sb.toString());
+                sb = new StringBuilder();
+            }
+        }
+        // Close the reader
+        reader.close();
+
+        // Close the statement
+        stmt.close();
+    } catch (IOException | SQLException e) {
+        System.out.println(e);
+    } finally {
+        closeConnectionToSQL();
+    }
+}
+public boolean checkAndCreateDatabase() {
+    String dbName = "swinghotel";
+    String filePath = "/ktpm.sql";
+        try {
+            // Create a Statement
+            Statement stmt = con.createStatement();
+
+            // Execute SHOW DATABASES
+            ResultSet rs = stmt.executeQuery("SHOW DATABASES");
+
+            // Check if the database exists
+            boolean dbExists = false;
+            while(rs.next()) {
+                if(dbName.equals(rs.getString(1))) {
+                    dbExists = true;
+                    return true;
+                }
+            }
+
+            // If the database does not exist, load the SQL file
+            if(!dbExists) {
+                loadSQLFile(filePath);
+            }
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        } finally {
+            closeConnectionToSQL();
+        }
+
+    }
+
+public void setMaxConnection() {
+		try {
+			if (openConectionToSQL()) {
+				Statement stmt = con.createStatement();
+				stmt.execute("SET GLOBAL max_connections = 1000");
+			}
+		} catch (SQLException e) {
+			System.out.println(e);
+		} finally {
+			closeConnectionToSQL();
+		}
+	}
 }

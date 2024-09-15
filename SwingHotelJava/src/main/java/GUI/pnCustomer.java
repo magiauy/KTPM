@@ -73,6 +73,7 @@ public class pnCustomer extends JPanel {
 
 	// Load giao diện
 	private void initComponents() {
+
 		ctmBUS.loaddata();
 		setBackground(new Color(255, 255, 255));
 		setBounds(222, 44, 1089, 590);
@@ -205,7 +206,8 @@ public class pnCustomer extends JPanel {
 		ButtonGroup statusGroup = new ButtonGroup();
 		statusGroup.add(rdbtstatus1);
 		statusGroup.add(rdbtstatus2);
-
+		rdbtstatus2.setEnabled(false);
+		rdbtstatus1.setSelected(true);
 
 		btnAdd = new JButton("Thêm");
 		btnAdd.setForeground(Color.WHITE);
@@ -370,6 +372,7 @@ public class pnCustomer extends JPanel {
 			}
 		}
 	}
+
 
 	// Mã tự tăng
 	private void autoSetID() {

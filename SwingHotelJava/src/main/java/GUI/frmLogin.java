@@ -25,7 +25,7 @@ public class frmLogin {
 	private JTextField tfEmail;
 	private JPasswordField pfPassword;
 	
-	private accountBUS accountBus = new accountBUS();
+	private static accountBUS accountBus = new accountBUS();
 	static  accountDTO account= new accountDTO();
 
 	/**
@@ -35,14 +35,17 @@ public class frmLogin {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					frmLogin window = new frmLogin();
-					
-					window.frame.setVisible(true);
-					
+							if(accountBus.checkAndCreateDatabase()) {
+								accountBUS.maxConnection();
+								frmLogin window = new frmLogin();
+
+								window.frame.setVisible(true);
+							}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
+
 		});
 	}
 //	Lấy Jframe của frmLogin
@@ -61,6 +64,8 @@ public class frmLogin {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+
+
 		frame = new JFrame();
 		frame.setBounds(100, 100, 409, 487);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -130,6 +135,7 @@ public class frmLogin {
 		panel_1.add(lblNewLabel_3);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
+
 	}
 	private void login() {
 	    

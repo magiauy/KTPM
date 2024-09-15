@@ -66,4 +66,14 @@ public class staffBUS {
 		}
 		return false;
 	}
+	public boolean checkstatus(int id){
+		for (staffDTO staff : arrStaff) {
+			if (staff.getStaff_id() == id) {
+				if (staff.getStaff_status().equals("HOẠT ĐỘNG")) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }
