@@ -434,6 +434,7 @@ public class pnCustomer extends JPanel {
 				ctm.setCustomer_phone(tfPhone.getText());
 				ctm.setCustomer_email(tfEmail.getText());
 				ctm.setCustomer_cccd(tfCCCD.getText());
+				ctm.setCustomer_status(status);
 
 				String message = ctmBUS.addCustomer(ctm);
 

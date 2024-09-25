@@ -307,6 +307,7 @@ public class roomDAO extends connectToSQL{
 				}
 				
 			}catch(SQLException e) {
+				e.printStackTrace();
 				System.out.println (e);
 				
 			}finally {

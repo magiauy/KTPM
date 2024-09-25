@@ -6,12 +6,13 @@ import java.sql.*;
 
 public class connectToSQL {
 	protected Connection con;
+    private String namedb = "swinghotel2";
 //	Thiết lập kiểm tra kết nối
 	public boolean openConectionToSQL() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			
-			String url="jdbc:mysql://localhost:3306/swinghotel";
+			String url="jdbc:mysql://localhost:3306/"+namedb;
 			String username="root";
 			String password="";
 			
@@ -99,7 +100,7 @@ public void loadSQLFile(String filePath) {
     }
 }
 public boolean checkAndCreateDatabase() {
-    String dbName = "swinghotel";
+    String dbName = namedb;
     String filePath = "/ktpm.sql";
         try {
             // Create a Statement

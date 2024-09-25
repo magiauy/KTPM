@@ -508,11 +508,10 @@ public class pnCheckOut extends JPanel {
 	                 // Tạo một đối tượng roomDTO và thiết lập ID phòng
 	                 roomDTO room = new roomDTO();
 	                 room.setRoom_id(roomId);
-	                 
+					 room.toString();
 	                 // Cập nhật trạng thái phòng
 	                 roomBUS.updateStatusRoomEmpty(room);
-	                 
-	                 
+
 	                 int detailBookingId =selectedDetailBooking.getDetail_booking_id_step2();
 	                 
 	                 detailBookingDTO dlBooking= new detailBookingDTO();
@@ -525,22 +524,6 @@ public class pnCheckOut extends JPanel {
 	            }
 	            if (message.equals("Thêm hóa đơn thành công")) {
 	                JOptionPane.showMessageDialog(this, message);
-
-	                for (int j = 0; j < table_1.getRowCount(); j++) {
-	                    detailServiceDTO dlsv = new detailServiceDTO();
-	                    dlsv.setid_pn(Integer.parseInt(tfID.getText()));
-	                    dlsv.setId_dv((int) table_1.getValueAt(j, 0));
-	                    dlsv.setSoluong_dv(Integer.parseInt(table_1.getValueAt(j, 2).toString()));
-	                    dlsv.setTongtien_dv(Double.parseDouble(table_1.getValueAt(j, 3).toString()));
-
-	                    String message1 = dlServiceBUS.addDetailSerice(dlsv);
-	                    
-	                    if (!"Thêm chi tiết dịch vụ thành công".equals(message1)) {
-	                        detailServiceAdded = false;
-	                        break; 
-	                    }
-	                    
-	                }
 	            }
 	            if (detailServiceAdded) {
                     reset();

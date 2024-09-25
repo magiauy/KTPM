@@ -93,7 +93,14 @@ public class billDTO {
 	public void setTien_moidichvu(double tien_moidichvu) {
 		this.tien_moidichvu = tien_moidichvu;
 	}
-	
-	
 
+	@Override
+	public String toString() {
+		return "billDTO{" +
+				"id_phieudat=" + id_phieudat +
+				", ngaylap_hd=" + ngaylap_hd +
+				", tongtien_hd=" + tongtien_hd +
+				", id_hoadon=" + id_hoadon +
+				'}';
+	}
 }

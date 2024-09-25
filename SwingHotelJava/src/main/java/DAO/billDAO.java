@@ -30,7 +30,7 @@ public class billDAO extends connectToSQL{
 				}
 				
 			}catch(SQLException e) {
-				
+				e.printStackTrace();
 			}finally {
 				closeConnectionToSQL();
 			}
@@ -56,6 +56,7 @@ public class billDAO extends connectToSQL{
 				}
 				
 			}catch(SQLException e) {
+				e.printStackTrace();
 				System.out.println(e);
 			}finally {
 				closeConnectionToSQL();

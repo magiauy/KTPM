@@ -10,6 +10,7 @@ public class billBUS {
 	}
 //	Thêm bill
 	public String addBill(billDTO bill) {
+		bill.toString();
 		if(billDAO.addBill(bill)) {
 			return "Thêm hóa đơn thành công";
 		}
