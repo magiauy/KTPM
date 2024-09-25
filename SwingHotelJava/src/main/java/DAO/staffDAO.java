@@ -34,6 +34,7 @@ public class staffDAO extends connectToSQL{
 				
 				
 			}catch(SQLException e) {
+				e.printStackTrace();
 				System.out.println(e);
 			}finally {
 				closeConnectionToSQL();
@@ -47,7 +48,7 @@ public class staffDAO extends connectToSQL{
 		boolean result= false;
 		if(openConectionToSQL()) {
 			try {
-				String sql="Insert into nhanvien values(?,?,?,?,?,?,?)";
+				String sql="Insert into nhanvien values(?,?,?,?,?,?,?,?)";
 				
 				PreparedStatement stmt=con.prepareStatement(sql);
 				
@@ -59,6 +60,7 @@ public class staffDAO extends connectToSQL{
 				stmt.setString(6,staff.getStaff_phone());
 				stmt.setString(6,staff.getStaff_phai());
 				stmt.setInt(7, staff.getStaff_id_chucvu());
+				stmt.setString(8, staff.getStaff_status());
 
 				if(stmt.executeUpdate()>=1) {
 					result=true;
@@ -66,6 +68,7 @@ public class staffDAO extends connectToSQL{
 				
 				
 			}catch(SQLException e) {
+				e.printStackTrace();
 				System.out.println(e);
 				
 			}finally{

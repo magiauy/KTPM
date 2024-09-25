@@ -533,6 +533,7 @@ public class pnStaff extends JPanel {
 				staff.setStaff_email(tfEmail.getText());
 				staff.setStaff_phone(tfPhone.getText());
 				staff.setStaff_CCCD(tfCCCD.getText());
+				staff.setStaff_status("HOẠT ĐỘNG");
 
 				staff.setStaff_phai(gender);
 
