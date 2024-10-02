@@ -303,6 +303,11 @@ public class pnRoom extends JPanel {
 			cbTypeRoom.setSelectedItem(modelRoom.getValueAt(i, 2).toString() + "-"
 					+ typeRoomMap.get(Integer.parseInt(modelRoom.getValueAt(i, 2).toString())));
 			cbStatusRoom.setSelectedItem(modelRoom.getValueAt(i, 4));
+			if (modelRoom.getValueAt(i, 4).toString().equals("ĐÃ ĐẶT")) {
+				btnDelete.setEnabled(false);
+			} else {
+				btnDelete.setEnabled(true);
+			}
 		}
 
 	}
