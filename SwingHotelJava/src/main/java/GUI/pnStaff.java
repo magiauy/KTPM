@@ -466,10 +466,12 @@ public class pnStaff extends JPanel {
 				rdbtnActive.setSelected(true);
 				rdbtnInactive.setEnabled(false);
 				rdbtnActive.setEnabled(true);
+				btnDelete.setEnabled(true);
 			} else if ("NGỪNG HOẠT ĐỘNG".equals(status)) {
 				rdbtnInactive.setSelected(true);
 				rdbtnActive.setEnabled(true);
 				rdbtnInactive.setEnabled(true);
+				btnDelete.setEnabled(false);
 			}
 		}
 		if (frmLogin.account.getAccount_id_nv() == Integer.parseInt(tfID.getText())) {

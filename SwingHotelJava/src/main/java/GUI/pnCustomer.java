@@ -367,8 +367,10 @@ public class pnCustomer extends JPanel {
 			if ("HOẠT ĐỘNG".equals(statustmp)) {
 				rdbtstatus1.setSelected(true);
 				rdbtstatus2.setEnabled(false);
+				btnDelete.setEnabled(true);
 			} else if ("NGỪNG HOẠT ĐỘNG".equals(statustmp)) {
 				rdbtstatus2.setSelected(true);
+				btnDelete.setEnabled(false);
 			}
 		}
 	}

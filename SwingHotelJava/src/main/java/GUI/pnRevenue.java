@@ -185,7 +185,7 @@ public class pnRevenue extends JPanel {
         btnPdf.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 exportToPDF();
-            }
+			}
         });
         add(btnPdf);
 		
@@ -251,46 +251,49 @@ public class pnRevenue extends JPanel {
 	        // Tạo một danh sách mới để lưu trữ các hóa đơn thỏa mãn điều kiện lọc
 	        ArrayList<billDTO> filteredBills = new ArrayList<>();
 
-	        // Duyệt qua danh sách hóa đơn và thêm các hóa đơn thỏa mãn điều kiện vào danh sách mới
-	        for (billDTO bill : arrInvoice) {
-	            // Lấy ngày từ JDateChooser dcStart
-	            Calendar calendar = Calendar.getInstance();
-	            calendar.setTime(dcStart.getDate());
+		if (dcStart.getDate() != null || dcEnd.getDate() != null) {
+			// Duyệt qua danh sách hóa đơn và thêm các hóa đơn thỏa mãn điều kiện vào danh sách mới
+			for (billDTO bill : arrInvoice) {
+				// Lấy ngày từ JDateChooser dcStart
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(dcStart.getDate());
 
-	            // Giảm giá trị của ngày đi 1 ngày
-	            calendar.add(Calendar.DATE, -1);
+				// Giảm giá trị của ngày đi 1 ngày
+				calendar.add(Calendar.DATE, -1);
 
-	            // Tạo một JDateChooser mới và đặt giá trị là ngày giảm đi 1 ngày
-	            JDateChooser tempStart = new JDateChooser();
-	            tempStart.setDate(calendar.getTime());
+				// Tạo một JDateChooser mới và đặt giá trị là ngày giảm đi 1 ngày
+				JDateChooser tempStart = new JDateChooser();
+				tempStart.setDate(calendar.getTime());
 
-	            if (bill.getNgaylap_hd().after(tempStart.getDate()) || bill.getNgaylap_hd().equals(tempStart.getDate())) {
-	                if (bill.getNgaylap_hd().before(dcEnd.getDate()) || bill.getNgaylap_hd().equals(dcStart.getDate())) {
-	                    filteredBills.add(bill);
-	                }
-	            }
-	        }
+				if (bill.getNgaylap_hd().after(tempStart.getDate()) || bill.getNgaylap_hd().equals(tempStart.getDate())) {
+					if (bill.getNgaylap_hd().before(dcEnd.getDate()) || bill.getNgaylap_hd().equals(dcStart.getDate())) {
+						filteredBills.add(bill);
+					}
+				}
+			}
 
-	        if(filteredBills.isEmpty()) {
-	        	JOptionPane.showMessageDialog(this, "Không có hóa đơn nào xuất hiện trong ngày này !!");
-	            return;
-	        }
-	        // Xóa toàn bộ dữ liệu hiển thị trên bảng
-	        modelRevenue.setRowCount(0);
-	        Sum=0;
-	        // Duyệt qua danh sách hóa đơn đã lọc và hiển thị trên bảng
-	        for (billDTO bill : filteredBills) {
-	            modelRevenue.addRow(new Object[] {
-	                bill.getId_hoadon(),
-	                bill.getName_customer(),
-	                bill.getName_room(),
-	                bill.getNgaylap_hd(),
-	                bill.getTongtien_hd()
-	            });
-	            Sum += bill.getTongtien_hd();
-	        }
-	        tfSum.setText(String.valueOf(Sum));
-	   
+			if (filteredBills.isEmpty()) {
+				JOptionPane.showMessageDialog(this, "Không có hóa đơn nào xuất hiện trong ngày này !!");
+				return;
+			}
+			// Xóa toàn bộ dữ liệu hiển thị trên bảng
+			modelRevenue.setRowCount(0);
+			Sum = 0;
+			// Duyệt qua danh sách hóa đơn đã lọc và hiển thị trên bảng
+			for (billDTO bill : filteredBills) {
+				modelRevenue.addRow(new Object[]{
+						bill.getId_hoadon(),
+						bill.getName_customer(),
+						bill.getName_room(),
+						bill.getNgaylap_hd(),
+						bill.getTongtien_hd()
+				});
+				Sum += bill.getTongtien_hd();
+			}
+			tfSum.setText(String.valueOf(Sum));
+		} else {
+			JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày bắt đầu và ngày kết thúc !!");
+		}
 	}
 
 	private void sumCount() {
@@ -323,7 +326,7 @@ public class pnRevenue extends JPanel {
 	    Document document = new Document();
 	    try {
 	        // Đường dẫn tới file font
-	        String fontPath = "D:\\Arial-Unicode-Font\\Arial Unicode Font.ttf";
+	        String fontPath = "src/main/resources/arial-unicode-ms.ttf";
 	        
 	        // Đăng ký font "Arial Unicode MS" với iText
 	        FontFactory.register(fontPath, "Arial Unicode MS");
