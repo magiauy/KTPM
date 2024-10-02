@@ -235,10 +235,10 @@ public class pnProfile extends JPanel {
 //	Xử lý sự kiện nút Cập nhật
 	private void btnUpdateActionPerformed(ActionEvent e) {
 		try {
-			if(tfName.getText().trim().equals("")||
-					tfEmail.getText().trim().equals("")||
-					tfPhone.getText().trim().equals("")||
-					tfCCCD.getText().trim().equals("")||
+			if(tfName.getText().trim().isEmpty() ||
+                    tfEmail.getText().trim().isEmpty() ||
+                    tfPhone.getText().trim().isEmpty() ||
+                    tfCCCD.getText().trim().isEmpty() ||
 					!isSelectedGender||
 					!isSelectedPosition) {
 				JOptionPane.showMessageDialog(this, "Vui lòng nhập đủ thông tin");	
@@ -280,7 +280,7 @@ public class pnProfile extends JPanel {
 				staff.setStaff_CCCD(tfCCCD.getText());
 				staff.setStaff_phai(gender);
 				staff.setStaff_id_chucvu(position);
-
+				staff.setStaff_status("HOẠT ĐỘNG");
 				String message=staffBUS.editStaff(staff);
 				
 				JOptionPane.showMessageDialog(this, message);
@@ -293,6 +293,7 @@ public class pnProfile extends JPanel {
 	                account.setAccount_cccd(tfCCCD.getText());
 	                account.setAccount_gender(gender);
 	                account.setAccount_id_position(position);
+
 	                
 	                
 	            	

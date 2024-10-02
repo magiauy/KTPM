@@ -105,7 +105,7 @@ boolean result = false;
 		if(openConectionToSQL()) {
 			try {
 				String sql ="Update nhanvien set TEN_NV = ?, EMAIL= ?, SDT_NV= ?, CCCD_NV= ?, PHAI_NV= ?, ID_CHUCVU= ?, TRANGTHAI_NV= ? where ID_NV=? ";
-				
+				 
 				PreparedStatement stmt = con.prepareStatement(sql);
 				
 				stmt.setString(1,staff.getStaff_name());
