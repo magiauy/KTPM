@@ -6,7 +6,7 @@ import java.sql.*;
 
 public class connectToSQL {
 	protected Connection con;
-    private String namedb = "swinghotel2";
+    private String namedb = "swinghotel";
 //	Thiết lập kiểm tra kết nối
 	public boolean openConectionToSQL() {
 		try {
