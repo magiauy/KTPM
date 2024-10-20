@@ -148,7 +148,7 @@ public class pnBooking extends JPanel {
 		lblPhng.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		lblPhng.setBounds(10, 354, 83, 25);
 		add(lblPhng);
-		
+
 		JLabel lblTinTmTnh = new JLabel("Tiền tạm tính");
 		lblTinTmTnh.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		lblTinTmTnh.setBounds(10, 469, 111, 25);
@@ -171,11 +171,13 @@ public class pnBooking extends JPanel {
 		tfFeeTmp = new JTextField();
 		tfFeeTmp.setColumns(10);
 		tfFeeTmp.setBounds(140, 461, 217, 33);
+		tfFeeTmp.setEnabled(false);
 		add(tfFeeTmp);
 		
 		tfRoom = new JTextField();
 		tfRoom.setColumns(10);
 		tfRoom.setBounds(140, 352, 217, 33);
+		tfRoom.setEnabled(false);
 		add(tfRoom);
 		
 		cbCustomer = new JComboBox();
@@ -253,6 +255,7 @@ public class pnBooking extends JPanel {
 		tfNameRoom = new JTextField();
 		tfNameRoom.setColumns(10);
 		tfNameRoom.setBounds(140, 408, 217, 33);
+		tfNameRoom.setEnabled(false);
 		add(tfNameRoom);
 		
 		JLabel lblTnPhng = new JLabel("Tên phòng");
